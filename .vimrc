@@ -6,9 +6,11 @@ set expandtab
 set tabstop=4
 set shiftwidth=4
 
-" I want grey numbers
+" I want colored numbers
+" Check here for all colors:
+" http://vim.wikia.com/wiki/Xterm256_color_names_for_console_Vim
 set nu
-highlight LineNr ctermfg=grey
+highlight LineNr ctermfg=187
 
 " Automatically change window's cwd to file's dir
 set autochdir
