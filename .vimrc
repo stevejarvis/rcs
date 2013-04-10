@@ -31,6 +31,7 @@ Bundle 'gmarik/vundle'
 " vim scripts
 Bundle 'Python-mode-klen'
 Bundle 'indentjava.vim'
+Bundle 'Enhanced-Javascript-syntax'
 
 filetype plugin indent on     " required!
 "
