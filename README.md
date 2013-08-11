@@ -1,4 +1,5 @@
 rcs
 ===
 
-My .*rc files. Like vimrc, zshrc.
+My rc files.
+Clone and copy the goods to ~.
