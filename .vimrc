@@ -9,12 +9,9 @@ set shiftwidth=4
 set backspace=indent,eol,start
 set expandtab
 set autochdir
-
-" I want colored numbers
-" Check here for all colors:
-" http://vim.wikia.com/wiki/Xterm256_color_names_for_console_Vim
+set ls=2
 set nu
-highlight LineNr ctermfg=187
+set background=dark
 
 " Vundle!
 " git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
