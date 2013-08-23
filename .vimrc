@@ -52,7 +52,7 @@ nnoremap <Leader>e :Error<CR>
 " NERDTree
 let g:NERDTreeShowHidden = 1
 let g:NERDTreeIgnore = ['\.DS_Store$']
-nnoremap <Leader>nt :NERDTreeToggle
+nnoremap <Leader>nt :NERDTreeToggle<CR>
 
 " Easytags
 set tags=./tags;
