@@ -55,6 +55,6 @@ let g:NERDTreeIgnore = ['\.DS_Store$']
 nnoremap <Leader>nt :NERDTreeToggle
 
 " Easytags
-set tags='./tags';
+set tags=./tags;
 let g:easytags_dynamic_files = 1
 let g:easytags_auto_highlight = 0
