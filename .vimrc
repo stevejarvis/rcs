@@ -33,6 +33,7 @@ Bundle 'Python-mode-klen'
 Bundle 'Syntastic'
 Bundle 'The-NERD-tree'
 Bundle 'easytags.vim'
+Bundle 'Tagbar'
 
 filetype indent plugin on     " required!
 
@@ -46,7 +47,7 @@ let g:pymode_lint = 0
 let g:pymode_rope = 0
 
 " Syntastic!
-let g:syntastic_auto_loc_list = 1
+let g:syntastic_auto_loc_list = 0
 nnoremap <Leader>e :Error<CR>
 
 " NERDTree
@@ -58,3 +59,6 @@ nnoremap <Leader>nt :NERDTreeToggle<CR>
 set tags=./tags;
 let g:easytags_dynamic_files = 1
 let g:easytags_auto_highlight = 0
+
+" Tagbar
+nnoremap <Leader>tb :TagbarToggle<CR>
