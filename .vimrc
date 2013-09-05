@@ -1,5 +1,5 @@
+" General
 let mapleader = ","
-
 syntax on
 set autoindent
 set smartindent
@@ -11,6 +11,12 @@ set autochdir
 set ls=2
 set nu
 set background=dark
+
+" Window nav
+nmap <C-h> <C-w>h
+nmap <C-j> <C-w>j
+nmap <C-k> <C-w>k
+nmap <C-l> <C-w>l
 
 " Vundle!
 " $ git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
