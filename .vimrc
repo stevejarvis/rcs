@@ -40,6 +40,7 @@ Bundle 'Syntastic'
 Bundle 'The-NERD-tree'
 Bundle 'easytags.vim'
 Bundle 'Tagbar'
+Bundle 'FSwitch'
 
 filetype indent plugin on     " required!
 
@@ -69,3 +70,9 @@ let g:easytags_auto_highlight = 0
 " Tagbar
 nnoremap <Leader>tb :TagbarToggle<CR>
 set updatetime=1000
+
+" FSwitch
+nmap <silent> <Leader>of :FSHere<cr>
+nmap <silent> <Leader>oh :FSSplitLeft<cr>
+nmap <silent> <Leader>ol :FSSplitRight<cr>
+
