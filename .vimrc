@@ -68,3 +68,4 @@ let g:easytags_auto_highlight = 0
 
 " Tagbar
 nnoremap <Leader>tb :TagbarToggle<CR>
+set updatetime=1000
