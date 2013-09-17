@@ -34,13 +34,13 @@ Bundle 'gmarik/vundle'
 "
 " github
 Bundle 'xolox/vim-misc'
+Bundle 'derekwyatt/vim-fswitch'
 " vim scripts
 Bundle 'Python-mode-klen'
 Bundle 'Syntastic'
 Bundle 'The-NERD-tree'
 Bundle 'easytags.vim'
 Bundle 'Tagbar'
-Bundle 'FSwitch'
 
 filetype indent plugin on     " required!
 
