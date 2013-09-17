@@ -73,6 +73,6 @@ set updatetime=1000
 
 " FSwitch
 nmap <silent> <Leader>of :FSHere<cr>
-nmap <silent> <Leader>oh :FSSplitLeft<cr>
-nmap <silent> <Leader>ol :FSSplitRight<cr>
+nmap <silent> <Leader>oH :FSSplitLeft<cr>
+nmap <silent> <Leader>oL :FSSplitRight<cr>
 
