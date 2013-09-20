@@ -3,3 +3,5 @@
 	email = steve.a.jarvis@gmail.com
 [color]
 	ui = auto
+[core]
+    editor = /usr/local/bin/vim

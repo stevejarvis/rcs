@@ -21,7 +21,6 @@ nmap <C-l> <C-w>l
 " Vundle!
 " $ git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
 set nocompatible               " be iMproved
-filetype on
 filetype off                   " required!
 
 set rtp+=~/.vim/bundle/vundle/
