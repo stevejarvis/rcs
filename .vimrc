@@ -21,6 +21,7 @@ nmap <C-l> <C-w>l
 " Vundle!
 " $ git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
 set nocompatible               " be iMproved
+filetype on
 filetype off                   " required!
 
 set rtp+=~/.vim/bundle/vundle/
@@ -35,6 +36,7 @@ Bundle 'gmarik/vundle'
 " github
 Bundle 'xolox/vim-misc'
 Bundle 'derekwyatt/vim-fswitch'
+Bundle 'stevejarvis/cscope.vim'
 " vim scripts
 Bundle 'Python-mode-klen'
 Bundle 'Syntastic'
@@ -64,15 +66,18 @@ nnoremap <Leader>nt :NERDTreeToggle<CR>
 
 " Easytags
 set tags=./tags;
+let g:easytags_updatetime_warn = 0
+let g:easytags_updatetime_min = 10000
 let g:easytags_dynamic_files = 1
 let g:easytags_auto_highlight = 0
 
 " Tagbar
 nnoremap <Leader>tb :TagbarToggle<CR>
-set updatetime=1000
 
 " FSwitch
 nmap <silent> <Leader>of :FSHere<cr>
 nmap <silent> <Leader>oH :FSSplitLeft<cr>
 nmap <silent> <Leader>oL :FSSplitRight<cr>
 
+" cscope
+let g:cscope_autoclose = 1
