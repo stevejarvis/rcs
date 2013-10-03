@@ -12,9 +12,9 @@ function prompt {
 
 	if [ "${EXITSTATUS}" -eq 0 ]
 	then
-		PS1="${GREEN}\u ${YELLOW}in ${BLUE}\w\n${GREEN}\$ ${OFF}"
+		PS1="${GREEN}\u@\h ${YELLOW}in ${BLUE}\w\n${GREEN}\$ ${OFF}"
 	else
-		PS1="${GREEN}\u ${YELLOW}in ${BLUE}\w\n${RED}\$ ${OFF}"
+		PS1="${GREEN}\u@\h ${YELLOW}in ${BLUE}\w\n${RED}\$ ${OFF}"
 	fi
 
 	PS2="${BOLD}>${OFF} "
