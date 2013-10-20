@@ -11,6 +11,7 @@ set autochdir
 set ls=2
 set nu
 set background=dark
+set ruler
 
 " Window nav
 nmap <C-h> <C-w>h
@@ -36,10 +37,10 @@ Bundle 'gmarik/vundle'
 Bundle 'xolox/vim-misc'
 Bundle 'derekwyatt/vim-fswitch'
 Bundle 'stevejarvis/cscope.vim'
+Bundle 'scrooloose/syntastic'
+Bundle 'scrooloose/nerdtree'
 " vim scripts
 Bundle 'Python-mode-klen'
-Bundle 'Syntastic'
-Bundle 'The-NERD-tree'
 Bundle 'easytags.vim'
 Bundle 'Tagbar'
 
@@ -56,6 +57,9 @@ let g:pymode_rope = 0
 
 " Syntastic!
 let g:syntastic_auto_loc_list = 0
+" Check is too slow to do every write?
+let g:syntastic_mode_map = { 'mode': 'passive' }
+nnoremap <Leader>sc :SyntasticCheck<CR>
 nnoremap <Leader>e :Error<CR>
 
 " NERDTree
