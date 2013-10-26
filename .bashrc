@@ -1,3 +1,5 @@
+export PATH=/usr/local/bin:$PATH:/Users/steve/bin
+
 function prompt {
 
 	EXITSTATUS="$?"
@@ -10,6 +12,7 @@ function prompt {
 
 	PROMPT="${GREEN}\u@\h ${BLUE}\W${OFF}\n"
 
+    #PS1 orignally was: \h:\W \u\$
 	if [ "${EXITSTATUS}" -eq 0 ]
 	then
 		PS1="${GREEN}\u@\h ${YELLOW}in ${BLUE}\w\n${GREEN}\$ ${OFF}"
