@@ -12,6 +12,7 @@ set ls=2
 set nu
 set background=dark
 set ruler
+set autowrite
 
 " Window nav
 nmap <C-h> <C-w>h
@@ -39,6 +40,7 @@ Bundle 'derekwyatt/vim-fswitch'
 Bundle 'stevejarvis/cscope.vim'
 Bundle 'scrooloose/syntastic'
 Bundle 'scrooloose/nerdtree'
+Bundle 'rking/ag.vim'
 " vim scripts
 Bundle 'Python-mode-klen'
 Bundle 'easytags.vim'
@@ -82,5 +84,5 @@ nmap <silent> <Leader>of :FSHere<cr>
 nmap <silent> <Leader>oH :FSSplitLeft<cr>
 nmap <silent> <Leader>oL :FSSplitRight<cr>
 
-" cscope
-let g:cscope_autoclose = 1
+" Ag
+nnoremap <Leader>ag :LAg <C-R><C-W><CR>
