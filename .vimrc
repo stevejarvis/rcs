@@ -86,3 +86,6 @@ nmap <silent> <Leader>oL :FSSplitRight<cr>
 
 " Ag
 nnoremap <Leader>ag :LAg <C-R><C-W><CR>
+
+" QuickFix
+autocmd QuickFixCmdPost [^l]* nested cwindow
