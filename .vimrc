@@ -13,12 +13,12 @@ set nu
 set background=dark
 set ruler
 set autowrite
-
-" Window nav
-nmap <C-h> <C-w>h
-nmap <C-j> <C-w>j
-nmap <C-k> <C-w>k
-nmap <C-l> <C-w>l
+set wildmenu
+set wildignore=*.o,*.pyc
+set wildmode=list:longest,full
+set incsearch
+set hlsearch
+set smartcase
 
 " Vundle!
 " $ git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
@@ -37,7 +37,7 @@ Bundle 'gmarik/vundle'
 " github
 Bundle 'xolox/vim-misc'
 Bundle 'derekwyatt/vim-fswitch'
-Bundle 'stevejarvis/cscope.vim'
+Bundle 'stevejarvis/cscope.vim.git'
 Bundle 'scrooloose/syntastic'
 Bundle 'scrooloose/nerdtree'
 Bundle 'rking/ag.vim'
@@ -87,5 +87,29 @@ nmap <silent> <Leader>oL :FSSplitRight<cr>
 " Ag
 nnoremap <Leader>ag :LAg <C-R><C-W><CR>
 
+" Other functions
+"
 " QuickFix
 autocmd QuickFixCmdPost [^l]* nested cwindow
+
+" Normal maps
+"
+" Window nav
+nmap <C-h> <C-w>h
+nmap <C-j> <C-w>j
+nmap <C-k> <C-w>k
+nmap <C-l> <C-w>l
+
+" Operator-pending maps
+"
+" Operator maps to get inside () '' and "
+onoremap in( :<c-u>normal! f(vi(<cr>
+onoremap in) :<c-u>normal! F)vi)<cr>
+onoremap in{ :<c-u>normal! f{vi{<cr>
+onoremap in} :<c-u>normal! F}vi}<cr>
+onoremap in[ :<c-u>normal! f[vi[<cr>
+onoremap in] :<c-u>normal! F]vi]<cr>
+onoremap in' :<c-u>normal! f'vi'<cr>
+onoremap il' :<c-u>normal! F'vi'<cr>
+onoremap in" :<c-u>normal! f"vi"<cr>
+onoremap il" :<c-u>normal! F"vi"<cr>
