@@ -91,6 +91,7 @@ nnoremap <Leader>ag :LAg <C-R><C-W><CR>
 "
 " QuickFix
 autocmd QuickFixCmdPost [^l]* nested cwindow
+autocmd FileType qf wincmd J
 
 " Normal maps
 "
@@ -99,6 +100,13 @@ nmap <C-h> <C-w>h
 nmap <C-j> <C-w>j
 nmap <C-k> <C-w>k
 nmap <C-l> <C-w>l
+
+" Escape - straight noremap does nothing
+inoremap kj <Esc>
+vnoremap kj <Esc>
+
+" Unhighlight
+noremap <leader>noh :noh<cr>
 
 " Operator-pending maps
 "
