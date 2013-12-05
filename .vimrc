@@ -19,6 +19,7 @@ set wildmode=list:longest,full
 set incsearch
 set hlsearch
 set smartcase
+set scrolloff=5
 
 " Vundle!
 " $ git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
