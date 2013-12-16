@@ -46,6 +46,7 @@
 (global-set-key (kbd "C-c m") 'compile)
 (global-set-key (kbd "C-c n") 'next-error)
 (global-set-key (kbd "C-c p") 'previous-error)
+(setq compilation-scroll-output t)
 
 ;; scroll-smoothly
 (setq scroll-step 1)
