@@ -107,7 +107,21 @@
 ;-------------------------------------------------------------------------------
 (require 'p4 nil t)
 (require 'magit nil t)
-(global-set-key (kbd "C-x g") 'magit-status)
+
+(defun m-magit-blame()
+  "prefix function for magit blame"
+  (interactive)
+  (progn
+    (magit-blame-mode)
+    (evil-emacs-state)))
+
+(defun m-magit-status()
+  "prefix function for magit status"
+  (interactive)
+  (magit-status default-directory))
+
+(global-set-key (kbd "C-x g s") 'm-magit-status)
+(global-set-key (kbd "C-x g b") 'm-magit-blame)
 
 ;-------------------------------------------------------------------------------
 ; optional work settings
