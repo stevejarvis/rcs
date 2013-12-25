@@ -46,6 +46,7 @@
 (global-set-key (kbd "C-c m") 'compile)
 (global-set-key (kbd "C-c n") 'next-error)
 (global-set-key (kbd "C-c p") 'previous-error)
+(setq compilation-scroll-output t)
 
 ;; scroll-smoothly
 (setq scroll-step 1)
@@ -73,6 +74,7 @@
 (global-set-key (kbd "C-c j") 'semantic-ia-fast-jump)
 (global-set-key (kbd "C-c J") 'semantic-complete-jump)
 (global-set-key (kbd "C-c o") 'pop-global-mark)
+(global-set-key (kbd "C-c t") 'semantic-analyze-proto-impl-toggle)
 (global-set-key (kbd "C-c r") 'semantic-symref)
 (global-set-key (kbd "C-c SPC") 'semantic-ia-complete-symbol)
 (global-set-key (kbd "C-c K") 'semantic-ia-show-doc)
