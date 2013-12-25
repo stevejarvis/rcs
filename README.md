@@ -1,5 +1,6 @@
 rcs
 ===
 
-My rc files.
-Clone and copy the goods to ~.
+Originally this was for .rc files, but has become all config and settings stuff.
+
+For most, recommend symlink from ~.
