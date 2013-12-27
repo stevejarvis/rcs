@@ -13,11 +13,12 @@ function prompt {
 	PROMPT="${GREEN}\u@\h ${BLUE}\W${OFF}\n"
 
     #PS1 orignally was: \h:\W \u\$
+        PS1="${GREEN}\u@\h ${YELLOW}\w\n"
 	if [ "${EXITSTATUS}" -eq 0 ]
 	then
-		PS1="${GREEN}\u@\h ${YELLOW}in ${BLUE}\w\n${GREEN}\$ ${OFF}"
+		PS1=$PS1"${GREEN}\$ ${OFF}"
 	else
-		PS1="${GREEN}\u@\h ${YELLOW}in ${BLUE}\w\n${RED}\$ ${OFF}"
+		PS1=$PS1"${RED}\$ ${OFF}"
 	fi
 
 	PS2="${BOLD}>${OFF} "
