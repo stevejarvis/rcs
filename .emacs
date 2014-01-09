@@ -122,8 +122,14 @@
   (interactive)
   (magit-status default-directory))
 
+(defun m-magit-log()
+  "prefix function for magit log"
+  (interactive)
+  (magit-log))
+
 (global-set-key (kbd "C-x g s") 'm-magit-status)
 (global-set-key (kbd "C-x g b") 'm-magit-blame)
+(global-set-key (kbd "C-x g l") 'm-magit-log)
 
 ;-------------------------------------------------------------------------------
 ; optional work settings
