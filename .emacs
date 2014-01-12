@@ -39,6 +39,7 @@
 ;; indentation style
 (setq c-default-style "k&r"
       c-basic-offset 4)
+(setq-default tab-width 4)
 (setq-default indent-tabs-mode nil)
 (define-key global-map (kbd "RET") 'newline-and-indent)
 
