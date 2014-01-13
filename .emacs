@@ -36,11 +36,9 @@
 (load-theme 'zenburn t)
 (which-function-mode t)
 
-;; indentation style
-(setq c-default-style "k&r"
-      c-basic-offset 4)
-(setq-default tab-width 4)
-(setq-default indent-tabs-mode nil)
+;; indentation
+(setq-default indent-tabs-mode nil
+              tab-width 4)
 (define-key global-map (kbd "RET") 'newline-and-indent)
 
 ;; make bindings
@@ -50,10 +48,10 @@
 (setq compilation-scroll-output t)
 
 ;; scroll-smoothly
-(setq scroll-step 1)
-(setq scroll-margin 5)
-(setq scroll-conservatively 10000)
-(setq auto-window-vscroll nil)
+(setq scroll-step 1
+      scroll-margin 5
+      scroll-conservatively 10000
+      auto-window-vscroll nil)
 
 ;; highlight over 80 char
 (require 'whitespace)
@@ -106,7 +104,7 @@
 (global-set-key (kbd "C-c s") 'sr-speedbar-toggle)
 
 ;-------------------------------------------------------------------------------
-;; version controls
+; version controls
 ;-------------------------------------------------------------------------------
 (require 'p4 nil t)
 (require 'magit nil t)
@@ -131,6 +129,20 @@
 (global-set-key (kbd "C-x g s") 'm-magit-status)
 (global-set-key (kbd "C-x g b") 'm-magit-blame)
 (global-set-key (kbd "C-x g l") 'm-magit-log)
+
+;-------------------------------------------------------------------------------
+; call me maybe
+;-------------------------------------------------------------------------------
+;; all cc modes
+(defun m-c-mode-common-hook()
+  (setq c-basic-offset 4))
+(add-hook 'c-mode-common-hook 'm-c-mode-common-hook)
+
+;; c/cpp
+(defun m-c-mode-hook()
+  (setq c-default-style "k&r"))
+(add-hook 'c-mode-hook 'm-c-mode-hook)
+(add-hook 'c++-mode-hook 'm-c-mode-hook)
 
 ;-------------------------------------------------------------------------------
 ; optional work settings
