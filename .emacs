@@ -59,6 +59,13 @@
 (global-whitespace-mode t)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
+;; control those backup files
+(setq backup-directory-alist `((".*" . "~/.saves_emacs"))
+      kept-new-versions 6
+      kept-old-versions 2
+      delete-old-versions t
+      backup-by-copying t)
+
 ;-------------------------------------------------------------------------------
 ; CEDET
 ;-------------------------------------------------------------------------------
@@ -87,6 +94,15 @@
 
 ;; insert mode actually be emacs
 (add-hook 'evil-insert-state-entry-hook 'evil-emacs-state)
+
+;; Want emacs mode in dired
+(defun m-dired()
+  "enter dired in an emacs state"
+  (interactive)
+  (progn
+    (dired default-directory)
+    (evil-emacs-state)))
+(global-set-key (kbd "C-x d") 'm-dired)
 
 ;-------------------------------------------------------------------------------
 ; key chord
