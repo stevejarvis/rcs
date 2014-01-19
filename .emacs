@@ -122,8 +122,8 @@
 ;-------------------------------------------------------------------------------
 ; version controls
 ;-------------------------------------------------------------------------------
-(require 'p4 nil t)
-(require 'magit nil t)
+(require 'p4)
+(require 'magit)
 
 (defun m-magit-blame()
   "prefix function for magit blame"
@@ -160,7 +160,54 @@
 (add-hook 'c-mode-hook 'm-c-mode-hook)
 (add-hook 'c++-mode-hook 'm-c-mode-hook)
 
+;; python
+(defun m-python-mode-hook()
+  (setq python-indent 4
+        python-indent-guess-indent-offset nil))
+(add-hook 'python-mode-hook 'm-python-mode-hook)
+
 ;-------------------------------------------------------------------------------
 ; optional work settings
 ;-------------------------------------------------------------------------------
 (require 'vsat nil t)
+
+;-------------------------------------------------------------------------------
+; mu4e email
+;-------------------------------------------------------------------------------
+(require 'mu4e)
+(global-set-key (kbd "C-x m") 'mu4e)
+
+(setq mu4e-drafts-folder "/[Gmail].Drafts")
+(setq mu4e-sent-folder   "/[Gmail].Sent Mail")
+(setq mu4e-trash-folder  "/[Gmail].Trash")
+
+;; setup some handy shortcuts
+;; you can quickly switch to your Inbox -- press ``ji''
+(setq mu4e-maildir-shortcuts
+      '( ("/INBOX"               . ?i)
+         ("/[Gmail].Sent Mail"   . ?s)
+         ("/[Gmail].Trash"       . ?t)
+         ("/[Gmail].All Mail"    . ?a)))
+
+;; allow for updating mail using 'U' in the main view:
+(setq mu4e-get-mail-command "offlineimap"
+      mu4e-update-interval 300)
+
+;; something about ourselves
+(setq
+ user-mail-address "sajarvis@bu.edu"
+ user-full-name  "Steve Jarvis")
+
+;; sending mail
+(require 'smtpmail)
+(setq message-send-mail-function 'smtpmail-send-it
+      starttls-use-gnutls t
+      smtpmail-starttls-credentials '(("smtp.bu.edu" 587 nil nil))
+      smtpmail-auth-credentials
+      '(("smtp.bu.edu" 587 "sajarvis@bu.edu" nil))
+      smtpmail-default-smtp-server "smtp.bu.edu"
+      smtpmail-smtp-server "smtp.bu.edu"
+      smtpmail-smtp-service 587)
+
+;; don't keep message buffers around
+(setq message-kill-buffer-on-exit t)
