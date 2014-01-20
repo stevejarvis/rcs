@@ -157,6 +157,16 @@
         python-indent-guess-indent-offset nil))
 (add-hook 'python-mode-hook 'm-python-mode-hook)
 
+;; LaTeX
+(defun m-latex-mode-hook()
+  (flyspell-mode t))
+(add-hook 'latex-mode-hook 'm-latex-mode-hook)
+
+;; mu4e compose
+(defun m-compose-mode-hook()
+  (flyspell-mode t))
+(add-hook 'mu4e-compose-mode-hook 'm-compose-mode-hook)
+
 ;-------------------------------------------------------------------------------
 ; optional work settings
 ;-------------------------------------------------------------------------------
