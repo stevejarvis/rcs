@@ -66,6 +66,9 @@
       delete-old-versions t
       backup-by-copying t)
 
+;; find the mate
+(global-set-key (kbd "C-c o") 'ff-find-other-file)
+
 ;-------------------------------------------------------------------------------
 ; CEDET
 ;-------------------------------------------------------------------------------
@@ -77,13 +80,10 @@
 (semantic-mode t)
 
 ;; bind keys
-(global-set-key (kbd "C-c j") 'semantic-ia-fast-jump)
-(global-set-key (kbd "C-c J") 'semantic-complete-jump)
-(global-set-key (kbd "C-c o") 'pop-global-mark)
-(global-set-key (kbd "C-c t") 'semantic-analyze-proto-impl-toggle)
-(global-set-key (kbd "C-c r") 'semantic-symref)
-(global-set-key (kbd "C-c SPC") 'semantic-ia-complete-symbol)
-(global-set-key (kbd "C-c K") 'semantic-ia-show-doc)
+;; changing a couple semantic shortcuts
+(global-set-key (kbd "C-c , .") 'semantic-ia-fast-jump)
+(global-set-key (kbd "C-c , t") 'semantic-analyze-proto-impl-toggle)
+(global-set-key (kbd "C-c , K") 'semantic-ia-show-doc)
 
 ;-------------------------------------------------------------------------------
 ; evil mode
@@ -94,6 +94,8 @@
 
 ;; insert mode actually be emacs
 (add-hook 'evil-insert-state-entry-hook 'evil-emacs-state)
+
+(global-set-key (kbd "C-i") 'evil-jump-forward)
 
 ;-------------------------------------------------------------------------------
 ; key chord
@@ -147,6 +149,11 @@
 
 ;; c/cpp
 (defun m-c-mode-hook()
+  (setq ff-find-other-file-alist '(("\\.cpp$" (".h"))
+                                   ("\\.c$" (".h"))
+                                   ("\\.h$" (".cpp"))
+                                   ("\\.h$" (".c"))))
+  (setq ff-search-directories '("." "../src" "../include"))
   (setq c-default-style "k&r"))
 (add-hook 'c-mode-hook 'm-c-mode-hook)
 (add-hook 'c++-mode-hook 'm-c-mode-hook)
@@ -159,12 +166,19 @@
 
 ;; LaTeX
 (defun m-latex-mode-hook()
-  (flyspell-mode t))
+  (flyspell-mode t)
+  (auto-fill-mode t)
+  (setq current-fill-column 80
+        fill-column 80))
 (add-hook 'latex-mode-hook 'm-latex-mode-hook)
 
 ;; mu4e compose
 (defun m-compose-mode-hook()
-  (flyspell-mode t))
+  (evil-emacs-state)
+  (flyspell-mode t)
+  (auto-fill-mode t)
+  (setq current-fill-column 80
+        fill-column 80))
 (add-hook 'mu4e-compose-mode-hook 'm-compose-mode-hook)
 
 ;-------------------------------------------------------------------------------
@@ -175,42 +189,42 @@
 ;-------------------------------------------------------------------------------
 ; mu4e email
 ;-------------------------------------------------------------------------------
-(require 'mu4e)
-(global-set-key (kbd "C-x m") 'mu4e)
+(when (require 'mu4e nil t)
+  (global-set-key (kbd "C-x m") 'mu4e)
 
-(setq mu4e-drafts-folder "/Drafts")
-(setq mu4e-sent-folder   "/Sent")
-(setq mu4e-trash-folder  "/Trash")
+  (setq mu4e-drafts-folder "/Drafts")
+  (setq mu4e-sent-folder   "/Sent")
+  (setq mu4e-trash-folder  "/Trash")
 
-;; setup some handy shortcuts
-;; you can quickly switch to your Inbox -- press ``ji''
-(setq mu4e-maildir-shortcuts
-      '( ("/INBOX"     . ?i)
-         ("/Sent"      . ?s)
-         ("/Drafts"    . ?d)
-         ("/Trash"     . ?t)))
+  ;; setup some handy shortcuts
+  ;; you can quickly switch to your Inbox -- press ``ji''
+  (setq mu4e-maildir-shortcuts
+        '( ("/INBOX"     . ?i)
+           ("/Sent"      . ?s)
+           ("/Drafts"    . ?d)
+           ("/Trash"     . ?t)))
 
-;; allow for updating mail using 'U' in the main view:
-(setq mu4e-get-mail-command "offlineimap"
-      mu4e-update-interval 900)
+  ;; allow for updating mail using 'U' in the main view:
+  (setq mu4e-get-mail-command "offlineimap"
+        mu4e-update-interval 900)
 
-;; something about ourselves
-(setq user-mail-address "steve@modtalk.org"
-      user-full-name  "Steve Jarvis")
+  ;; something about ourselves
+  (setq user-mail-address "steve@modtalk.org"
+        user-full-name  "Steve Jarvis")
 
-;; rendering
-(setq mu4e-html2text-command "w3m")
+  ;; rendering
+  (setq mu4e-html2text-command "w3m")
 
-;; sending mail
-(require 'smtpmail)
-(setq message-send-mail-function 'smtpmail-send-it
-      starttls-use-gnutls t
-      smtpmail-starttls-credentials '(("modtalk.org" 587 nil nil))
-      smtpmail-auth-credentials
-      '(("modtalk.org" 587 "steve@modtalk.org" nil))
-      smtpmail-default-smtp-server "modtalk.org"
-      smtpmail-smtp-server "modtalk.org"
-      smtpmail-smtp-service 587)
+  ;; sending mail
+  (require 'smtpmail)
+  (setq message-send-mail-function 'smtpmail-send-it
+        starttls-use-gnutls t
+        smtpmail-starttls-credentials '(("modtalk.org" 587 nil nil))
+        smtpmail-auth-credentials
+        '(("modtalk.org" 587 "steve@modtalk.org" nil))
+        smtpmail-default-smtp-server "modtalk.org"
+        smtpmail-smtp-server "modtalk.org"
+        smtpmail-smtp-service 587)
 
-;; don't keep message buffers around
-(setq message-kill-buffer-on-exit t)
+  ;; don't keep message buffers around
+  (setq message-kill-buffer-on-exit t))
