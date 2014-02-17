@@ -1,4 +1,5 @@
-" General
+" general
+"
 let mapleader = ","
 syntax on
 set autoindent
@@ -20,8 +21,11 @@ set incsearch
 set hlsearch
 set smartcase
 set scrolloff=5
+" highlight lines over 80
+match Error /\%81v.\+/
 
-" Vundle!
+" vundle!
+"
 " $ git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
 set nocompatible               " be iMproved
 filetype off                   " required!
@@ -29,12 +33,9 @@ filetype off                   " required!
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
-" let Vundle manage Vundle
-" required! 
+" let vundle manage vundle
 Bundle 'gmarik/vundle'
 
-" My Bundles here:
-"
 " github
 Bundle 'xolox/vim-misc'
 Bundle 'derekwyatt/vim-fswitch'
@@ -42,6 +43,7 @@ Bundle 'stevejarvis/cscope.vim.git'
 Bundle 'scrooloose/syntastic'
 Bundle 'scrooloose/nerdtree'
 Bundle 'rking/ag.vim'
+Bundle 'tpope/vim-fugitive'
 " vim scripts
 Bundle 'Python-mode-klen'
 Bundle 'easytags.vim'
@@ -49,9 +51,9 @@ Bundle 'Tagbar'
 
 filetype indent plugin on     " required!
 
-" Plugin specific options
+" plugin specific options
 "
-" Python-mode-klen 
+" python-mode-klen 
 let g:pymode_syntax_indent_errors = 0
 let g:pymode_syntax_space_errors = 0
 let g:pymode_folding = 0
@@ -60,7 +62,7 @@ let g:pymode_rope = 0
 
 " Syntastic!
 let g:syntastic_auto_loc_list = 0
-" Check is too slow to do every write?
+" check is too slow to do every write?
 let g:syntastic_mode_map = { 'mode': 'passive' }
 nnoremap <Leader>sc :SyntasticCheck<CR>
 nnoremap <Leader>e :Error<CR>
@@ -81,44 +83,52 @@ let g:easytags_auto_highlight = 0
 nnoremap <Leader>tb :TagbarToggle<CR>
 
 " FSwitch
-nmap <silent> <Leader>of :FSHere<cr>
-nmap <silent> <Leader>oH :FSSplitLeft<cr>
-nmap <silent> <Leader>oL :FSSplitRight<cr>
+nmap <silent> <Leader>of :FSHere<CR>
+nmap <silent> <Leader>oH :FSSplitLeft<CR>
+nmap <silent> <Leader>oL :FSSplitRight<CR>
 
 " Ag
 nnoremap <Leader>ag :LAg <C-R><C-W><CR>
 
-" Other functions
+" Fugitive
+nnoremap <Leader>gs :Gstatus <CR>
+nnoremap <Leader>gb :Gblame <CR>
+
+" other functions
 "
 " QuickFix
 autocmd QuickFixCmdPost [^l]* nested cwindow
 autocmd FileType qf wincmd J
 
-" Normal maps
+" normal maps
 "
-" Window nav
+" window nav
 nmap <C-h> <C-w>h
 nmap <C-j> <C-w>j
 nmap <C-k> <C-w>k
 nmap <C-l> <C-w>l
 
-" Escape - straight noremap does nothing
+" escape - straight noremap does nothing
 inoremap kj <Esc>
 vnoremap kj <Esc>
+cnoremap kj <Esc>
 
-" Unhighlight
-noremap <leader>noh :noh<cr>
+" unhighlight
+noremap <leader>noh :noh<CR>
 
-" Operator-pending maps
+" operator-pending maps
 "
-" Operator maps to get inside () '' and "
-onoremap in( :<c-u>normal! f(vi(<cr>
-onoremap in) :<c-u>normal! F)vi)<cr>
-onoremap in{ :<c-u>normal! f{vi{<cr>
-onoremap in} :<c-u>normal! F}vi}<cr>
-onoremap in[ :<c-u>normal! f[vi[<cr>
-onoremap in] :<c-u>normal! F]vi]<cr>
-onoremap in' :<c-u>normal! f'vi'<cr>
-onoremap il' :<c-u>normal! F'vi'<cr>
-onoremap in" :<c-u>normal! f"vi"<cr>
-onoremap il" :<c-u>normal! F"vi"<cr>
+" operator maps to get inside () '' and "
+onoremap in( :<C-u>normal! f(vi(<CR>
+onoremap il) :<C-u>normal! F)vi)<CR>
+onoremap in{ :<C-u>normal! f{vi{<CR>
+onoremap il} :<C-u>normal! F}vi}<CR>
+onoremap in[ :<C-u>normal! f[vi[<CR>
+onoremap il] :<C-u>normal! F]vi]<CR>
+onoremap in' :<C-u>normal! f'vi'<CR>
+onoremap il' :<C-u>normal! F'vi'<CR>
+onoremap in" :<C-u>normal! f"vi"<CR>
+onoremap il" :<C-u>normal! F"vi"<CR>
+
+" directory local settings
+autocmd BufNewFile,BufRead ~/dev/mt_runtime/* set noexpandtab

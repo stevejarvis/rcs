@@ -7,7 +7,8 @@
                      key-chord
                      magit
                      p4
-                     zenburn-theme))
+                     zenburn-theme
+                     ecb))
 
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.milkbox.net/packages/") t)
@@ -53,11 +54,18 @@
       scroll-conservatively 10000
       auto-window-vscroll nil)
 
-;; highlight over 80 char
+;; highlight
 (require 'whitespace)
 (setq whitespace-style '(face lines-tail))
 (global-whitespace-mode t)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
+(defun m-highlight ()
+  "highlight keywords, like TODO"
+  (interactive)
+  (setq highlight-list '("TODO" "BUG" "NOTE"))
+  (dolist (key highlight-list)
+    (highlight-regexp key 'hi-blue)))
+(add-hook 'find-file-hooks 'm-highlight)
 
 ;; control those backup files
 (setq backup-directory-alist `((".*" . "~/.saves_emacs"))
@@ -68,6 +76,7 @@
 
 ;; find the mate
 (global-set-key (kbd "C-c o") 'ff-find-other-file)
+(show-paren-mode t)
 
 ;-------------------------------------------------------------------------------
 ; CEDET
@@ -86,16 +95,26 @@
 (global-set-key (kbd "C-c , K") 'semantic-ia-show-doc)
 
 ;-------------------------------------------------------------------------------
+; ECB
+;-------------------------------------------------------------------------------
+(defun m-ecb-toggle()
+  "toggle ecb and turn on my preferred view
+   if view isn't found, see ecb-create-new-layout"
+  (interactive)
+  (when (ecb-minor-mode)
+    (ecb-layout-switch 'right-methods)))
+(global-set-key (kbd "C-c e") 'm-ecb-toggle)
+
+;-------------------------------------------------------------------------------
 ; evil mode
 ;-------------------------------------------------------------------------------
-(setq evil-want-C-u-scroll t)
+(setq evil-want-C-u-scroll t
+      evil-want-C-i-jump t)
 (require 'evil)
 (evil-mode t)
 
 ;; insert mode actually be emacs
 (add-hook 'evil-insert-state-entry-hook 'evil-emacs-state)
-
-(global-set-key (kbd "C-i") 'evil-jump-forward)
 
 ;-------------------------------------------------------------------------------
 ; key chord
@@ -144,7 +163,8 @@
 ;-------------------------------------------------------------------------------
 ;; all cc modes
 (defun m-c-mode-common-hook()
-  (setq c-basic-offset 4))
+  (setq c-basic-offset 4
+        sr-speedbar-width 32))
 (add-hook 'c-mode-common-hook 'm-c-mode-common-hook)
 
 ;; c/cpp
@@ -228,3 +248,16 @@
 
   ;; don't keep message buffers around
   (setq message-kill-buffer-on-exit t))
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(ecb-options-version "2.40"))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
