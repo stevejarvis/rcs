@@ -7,8 +7,7 @@
                      key-chord
                      magit
                      p4
-                     zenburn-theme
-                     ecb))
+                     zenburn-theme))
 
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.milkbox.net/packages/") t)
@@ -93,17 +92,6 @@
 (global-set-key (kbd "C-c , .") 'semantic-ia-fast-jump)
 (global-set-key (kbd "C-c , t") 'semantic-analyze-proto-impl-toggle)
 (global-set-key (kbd "C-c , K") 'semantic-ia-show-doc)
-
-;-------------------------------------------------------------------------------
-; ECB
-;-------------------------------------------------------------------------------
-(defun m-ecb-toggle()
-  "toggle ecb and turn on my preferred view
-   if view isn't found, see ecb-create-new-layout"
-  (interactive)
-  (when (ecb-minor-mode)
-    (ecb-layout-switch 'right-methods)))
-(global-set-key (kbd "C-c e") 'm-ecb-toggle)
 
 ;-------------------------------------------------------------------------------
 ; evil mode
@@ -248,16 +236,3 @@
 
   ;; don't keep message buffers around
   (setq message-kill-buffer-on-exit t))
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(ecb-options-version "2.40"))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
