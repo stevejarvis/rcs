@@ -78,6 +78,9 @@
 (global-set-key (kbd "C-c o") 'ff-find-other-file)
 (show-paren-mode t)
 
+;; avoid meta
+(global-set-key (kbd "C-x C-m") 'execute-extended-command)
+
 ;-------------------------------------------------------------------------------
 ; CEDET
 ;-------------------------------------------------------------------------------
