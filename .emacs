@@ -212,25 +212,25 @@
 (when (require 'mu4e nil t)
   (global-set-key (kbd "C-x m") 'mu4e)
 
-  (setq mu4e-drafts-folder "/Drafts")
-  (setq mu4e-sent-folder   "/Sent")
-  (setq mu4e-trash-folder  "/Trash")
+  (setq mu4e-drafts-folder "/[Gmail].Drafts")
+  (setq mu4e-sent-folder   "/[Gmail].Sent Mail")
+  (setq mu4e-trash-folder  "/[Gmail].Trash")
 
   ;; setup some handy shortcuts
-  ;; you can quickly switch to your Inbox -- press ``ji''
   (setq mu4e-maildir-shortcuts
-        '( ("/INBOX"     . ?i)
-           ("/Sent"      . ?s)
-           ("/Drafts"    . ?d)
-           ("/Trash"     . ?t)))
+        '( ("/INBOX"               . ?i)
+           ("/[Gmail].Sent Mail"   . ?s)
+           ("/[Gmail].Trash"       . ?t)
+           ("/[Gmail].All Mail"    . ?a)))
 
   ;; allow for updating mail using 'U' in the main view:
   (setq mu4e-get-mail-command "offlineimap"
-        mu4e-update-interval 900)
+        mu4e-update-interval 300)
 
   ;; something about ourselves
-  (setq user-mail-address "steve@modtalk.org"
-        user-full-name  "Steve Jarvis")
+  (setq
+   user-mail-address "sajarvis@bu.edu"
+   user-full-name  "Steve Jarvis")
 
   ;; rendering
   (setq mu4e-html2text-command "w3m")
@@ -239,11 +239,11 @@
   (require 'smtpmail)
   (setq message-send-mail-function 'smtpmail-send-it
         starttls-use-gnutls t
-        smtpmail-starttls-credentials '(("modtalk.org" 587 nil nil))
+        smtpmail-starttls-credentials '(("smtp.bu.edu" 587 nil nil))
         smtpmail-auth-credentials
-        '(("modtalk.org" 587 "steve@modtalk.org" nil))
-        smtpmail-default-smtp-server "modtalk.org"
-        smtpmail-smtp-server "modtalk.org"
+        '(("smtp.bu.edu" 587 "sajarvis@bu.edu" nil))
+        smtpmail-default-smtp-server "smtp.bu.edu"
+        smtpmail-smtp-server "smtp.bu.edu"
         smtpmail-smtp-service 587)
 
   ;; don't keep message buffers around
