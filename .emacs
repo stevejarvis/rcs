@@ -74,11 +74,9 @@
       delete-old-versions t
       backup-by-copying t)
 
-;; find the mate
-(global-set-key (kbd "C-c o") 'ff-find-other-file)
+(global-set-key (kbd "C-c , o") 'ff-find-other-file)
 (show-paren-mode t)
-
-;; avoid meta
+(global-set-key (kbd "C-c o") 'pop-global-mark)
 (global-set-key (kbd "C-x C-m") 'execute-extended-command)
 
 ;-------------------------------------------------------------------------------
