@@ -36,6 +36,7 @@
 ;; theme
 (load-theme 'zenburn t)
 (which-function-mode t)
+(tool-bar-mode -1)
 
 ;; indentation
 (setq-default indent-tabs-mode nil
@@ -62,9 +63,11 @@
 (defun m-highlight ()
   "highlight keywords, like TODO"
   (interactive)
-  (setq highlight-list '("TODO" "BUG" "NOTE"))
-  (dolist (key highlight-list)
-    (highlight-regexp key 'hi-blue)))
+  (defvar action-keywords-regex
+    (regexp-opt
+     '("TODO" "BUG" "FIXME" "NOTE")
+     'words))
+  (highlight-regexp action-keywords-regex 'hi-blue))
 (add-hook 'find-file-hooks 'm-highlight)
 
 ;; control those backup files
@@ -165,7 +168,8 @@
 ;; all cc modes
 (defun m-c-mode-common-hook()
   (setq c-basic-offset 4
-        sr-speedbar-width 32))
+        sr-speedbar-width 32)
+  (flyspell-prog-mode t))
 (add-hook 'c-mode-common-hook 'm-c-mode-common-hook)
 
 ;; c/cpp
@@ -176,15 +180,16 @@
                                    ("\\.h$" (".c"))))
   (setq ff-search-directories '("." "../src" "../include"))
   (setq c-default-style "k&r"))
+(add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 (add-hook 'c-mode-hook 'm-c-mode-hook)
 (add-hook 'c++-mode-hook 'm-c-mode-hook)
 
 ;; python
 (defun m-python-mode-hook()
   (setq python-indent 4
-        python-indent-guess-indent-offset nil))
+        python-indent-guess-indent-offset nil)
+  (flyspell-prog-mode t))
 (add-hook 'python-mode-hook 'm-python-mode-hook)
-
 ;; LaTeX
 (defun m-latex-mode-hook()
   (flyspell-mode t)
@@ -193,62 +198,12 @@
         fill-column 80))
 (add-hook 'latex-mode-hook 'm-latex-mode-hook)
 
-;; mu4e compose
-(defun m-compose-mode-hook()
-  (evil-emacs-state)
-  (flyspell-mode t)
-  (auto-fill-mode t)
-  (setq current-fill-column 80
-        fill-column 80))
-(add-hook 'mu4e-compose-mode-hook 'm-compose-mode-hook)
-
 ;-------------------------------------------------------------------------------
-; optional work settings
+; optional settings
 ;-------------------------------------------------------------------------------
 (require 'vsat nil t)
+(require 'local nil t)
 
-;-------------------------------------------------------------------------------
-; mu4e email
-;-------------------------------------------------------------------------------
-(when (require 'mu4e nil t)
-  (global-set-key (kbd "C-x m") 'mu4e)
-
-  (setq mu4e-drafts-folder "/[Gmail].Drafts")
-  (setq mu4e-sent-folder   "/[Gmail].Sent Mail")
-  (setq mu4e-trash-folder  "/[Gmail].Trash")
-
-  ;; setup some handy shortcuts
-  (setq mu4e-maildir-shortcuts
-        '( ("/INBOX"               . ?i)
-           ("/[Gmail].Sent Mail"   . ?s)
-           ("/[Gmail].Trash"       . ?t)
-           ("/[Gmail].All Mail"    . ?a)))
-
-  ;; allow for updating mail using 'U' in the main view:
-  (setq mu4e-get-mail-command "offlineimap"
-        mu4e-update-interval 300)
-
-  ;; something about ourselves
-  (setq
-   user-mail-address "sajarvis@bu.edu"
-   user-full-name  "Steve Jarvis")
-
-  ;; rendering
-  (setq mu4e-html2text-command "w3m")
-
-  ;; sending mail
-  (require 'smtpmail)
-  (setq message-send-mail-function 'smtpmail-send-it
-        starttls-use-gnutls t
-        smtpmail-starttls-credentials '(("smtp.bu.edu" 587 nil nil))
-        smtpmail-auth-credentials
-        '(("smtp.bu.edu" 587 "sajarvis@bu.edu" nil))
-        smtpmail-default-smtp-server "smtp.bu.edu"
-        smtpmail-smtp-server "smtp.bu.edu"
-        smtpmail-smtp-service 587)
-
-  ;; don't keep message buffers around
-  (setq message-kill-buffer-on-exit t))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
