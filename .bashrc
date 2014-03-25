@@ -27,6 +27,7 @@ function prompt {
 PROMPT_COMMAND=prompt
 alias ll="ls -l"
 alias la="ls -a"
+alias hd="hexdump"
 
 export CLICOLOR=1
 export LSCOLORS=GxFxCxDxBxegedabagaced
