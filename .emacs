@@ -33,6 +33,7 @@
 ; general settings
 ;-------------------------------------------------------------------------------
 ;; theme
+(setq inhibit-startup-message t)
 (load-theme 'zenburn t)
 (which-function-mode t)
 (tool-bar-mode -1)
