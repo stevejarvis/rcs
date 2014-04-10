@@ -96,7 +96,8 @@
 ;; changing a couple semantic shortcuts
 (global-set-key (kbd "C-c , .") 'semantic-ia-fast-jump)
 (global-set-key (kbd "C-c , t") 'semantic-analyze-proto-impl-toggle)
-(global-set-key (kbd "C-c , K") 'semantic-ia-show-doc)
+(global-set-key (kbd "C-c K") 'semantic-ia-show-doc)
+(global-set-key (kbd "C-c SPC") 'semantic-ia-complete-symbol)
 
 ;-------------------------------------------------------------------------------
 ; evil mode
@@ -158,7 +159,7 @@
 (defun m-c-mode-common-hook()
   (setq c-basic-offset 4
         sr-speedbar-width 32)
-  (flyspell-prog-mode t))
+  (flyspell-prog-mode))
 (add-hook 'c-mode-common-hook 'm-c-mode-common-hook)
 
 ;; c/cpp
@@ -177,7 +178,7 @@
 (defun m-python-mode-hook()
   (setq python-indent 4
         python-indent-guess-indent-offset nil)
-  (flyspell-prog-mode t))
+  (flyspell-prog-mode))
 (add-hook 'python-mode-hook 'm-python-mode-hook)
 ;; LaTeX
 (defun m-latex-mode-hook()
@@ -192,16 +193,3 @@
 ;-------------------------------------------------------------------------------
 (require 'vsat nil t)
 (require 'local nil t)
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(ecb-options-version "2.40"))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )

@@ -13,4 +13,8 @@ fi
 
 PATH=$PATH:$HOME/.local/bin:$HOME/bin
 
+alias ls="ls --color"
+alias ll="ls -l --color"
+alias la="ls -a --color"
+
 export PATH
