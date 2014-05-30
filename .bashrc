@@ -1,4 +1,8 @@
-export PATH=/usr/local/bin:$PATH:/Users/steve/bin
+export PATH=/usr/local/bin:$PATH:/Users/steve/bin:/Users/sjarvis/bin:/usr/texbin
+
+if [ -f "$HOME/.p4c" ]; then
+    export P4CONFIG=$HOME/.p4c
+fi
 
 function prompt {
 
@@ -25,9 +29,12 @@ function prompt {
 }
 
 PROMPT_COMMAND=prompt
+
 alias ll="ls -l"
 alias la="ls -a"
 alias hd="hexdump"
+alias emacsw="/Applications/Emacs.app/Contents/MacOS/Emacs &"
+alias p4='p4 -zmaxScanRows=10000000 -zmaxResults=10000000 -zmaxLockTime=600000'
 
 export CLICOLOR=1
 export LSCOLORS=GxFxCxDxBxegedabagaced

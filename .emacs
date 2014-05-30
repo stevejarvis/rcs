@@ -193,3 +193,46 @@
 ;-------------------------------------------------------------------------------
 (require 'vsat nil t)
 (require 'local nil t)
+
+;-------------------------------------------------------------------------------
+; mail
+;-------------------------------------------------------------------------------
+(when (require 'mu4e nil t)
+  (global-set-key (kbd "C-x m") 'mu4e)
+
+  (setq mu4e-drafts-folder "/[Gmail].Drafts")
+  (setq mu4e-sent-folder "/[Gmail].Sent Mail")
+  (setq mu4e-trash-folder "/[Gmail].Trash")
+
+  ;; setup some handy shortcuts
+  (setq mu4e-maildir-shortcuts
+        '( ("/INBOX" . ?i)
+           ("/[Gmail].Sent Mail" . ?s)
+           ("/[Gmail].Trash" . ?t)
+           ("/[Gmail].All Mail" . ?a)))
+
+  ;; allow for updating mail using 'U' in the main view:
+  (setq mu4e-get-mail-command "offlineimap"
+        mu4e-update-interval 300)
+
+  ;; something about ourselves
+  (setq
+   user-mail-address "sajarvis@bu.edu"
+   user-full-name "Steve Jarvis")
+
+  ;; rendering
+  (setq mu4e-html2text-command "w3m")
+
+  ;; sending mail
+  (require 'smtpmail)
+  (setq message-send-mail-function 'smtpmail-send-it
+        starttls-use-gnutls t
+        smtpmail-starttls-credentials '(("smtp.bu.edu" 587 nil nil))
+        smtpmail-auth-credentials
+        '(("smtp.bu.edu" 587 "sajarvis@bu.edu" nil))
+        smtpmail-default-smtp-server "smtp.bu.edu"
+        smtpmail-smtp-server "smtp.bu.edu"
+        smtpmail-smtp-service 587)
+
+  ;; don't keep message buffers around
+  (setq message-kill-buffer-on-exit t))
