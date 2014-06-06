@@ -1,7 +1,7 @@
 [user]
 	name = Steve Jarvis
-	email = steve@modtalk.org
+	email = steve.a.jarvis@gmail.com
 [color]
 	ui = auto
 [core]
-    editor = /usr/local/bin/emacs
+    editor = emacs

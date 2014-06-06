@@ -6,7 +6,7 @@ if [ -f ~/.bashrc ]; then
 fi
 
 # User specific environment and startup programs
-if [ ! -z `which xflux` ]
+if [ ! -z `which xflux 2>/dev/null` ]
 then
     xflux -z 01721 -k 2700
 fi
