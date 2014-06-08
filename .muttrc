@@ -1,13 +1,15 @@
 set mbox_type = Maildir
 set sendmail = /usr/bin/msmtp
+# this variable isn't used, just want he agent to cache password
+set my_msmtp_pass = `gpg -d ~/.pass/gmail.pass.gpg`
 
-set folder = ~/Mail
+set folder = ~/Maildir
 set spoolfile = "+INBOX"
 
 mailboxes +INBOX
 
 set realname = "Steve Jarvis"
-set from = "sajarvis@bu.edu"
+set from = "steve.a.jarvis@gmail.com"
 
 set sort_aux = reverse-last-date-received
 set menu_scroll

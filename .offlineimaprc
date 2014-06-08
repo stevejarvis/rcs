@@ -1,0 +1,22 @@
+[general]
+pythonfile = /home/sjarvis/.offlineimap.py
+accounts = Gmail
+maxsyncaccounts = 3
+
+[Account Gmail]
+localrepository = Local
+remoterepository = Remote
+
+[Repository Local]
+type = Maildir
+localfolders = ~/Maildir
+
+[Repository Remote]
+type = IMAP
+remotehost = imap.gmail.com
+remoteuser = steve.a.jarvis@gmail.com
+remotepasseval = mailpasswd( "gmail" )
+ssl = yes
+cert_fingerprint = 89091347184d41768bfc0da9fad94bfe882dd358
+maxconnections = 1
+realdelete = no
