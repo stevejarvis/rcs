@@ -15,3 +15,7 @@ set sort_aux = reverse-last-date-received
 set menu_scroll
 set pager_context = 5
 set editor='/usr/bin/emacs'
+
+# add addresses in inbox to contact list
+set display_filter = "~/rcs/mutt_aliases.sh"
+source ~/.mutt/aliases
