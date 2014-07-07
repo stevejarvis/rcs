@@ -96,7 +96,7 @@
 ;; changing a couple semantic shortcuts
 (global-set-key (kbd "C-c , .") 'semantic-ia-fast-jump)
 (global-set-key (kbd "C-c , t") 'semantic-analyze-proto-impl-toggle)
-(global-set-key (kbd "C-c K") 'semantic-ia-show-doc)
+(global-set-key (kbd "C-c , K") 'semantic-ia-show-doc)
 (global-set-key (kbd "C-c SPC") 'semantic-ia-complete-symbol)
 
 ;-------------------------------------------------------------------------------
