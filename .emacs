@@ -7,6 +7,7 @@
                      key-chord
                      magit
                      p4
+                     helm
                      zenburn-theme))
 
 (add-to-list 'package-archives
@@ -98,6 +99,58 @@
 (global-set-key (kbd "C-c , t") 'semantic-analyze-proto-impl-toggle)
 (global-set-key (kbd "C-c , K") 'semantic-ia-show-doc)
 (global-set-key (kbd "C-c SPC") 'semantic-ia-complete-symbol)
+
+;-------------------------------------------------------------------------------
+; helm
+;-------------------------------------------------------------------------------
+(require 'helm)
+(require 'helm-config)
+(require 'helm-eshell)
+(require 'helm-files)
+(require 'helm-grep)
+
+;; make tab still useful and finish words
+;;; rebind tab to do persistent action
+(define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
+;;; make TAB works in terminal
+(define-key helm-map (kbd "C-i") 'helm-execute-persistent-action)
+(define-key helm-map (kbd "C-z")  'helm-select-action)
+
+(define-key helm-grep-mode-map (kbd "<return>")
+  'helm-grep-mode-jump-other-window)
+
+(setq
+ ;; do not display invisible candidates
+ helm-quick-update t
+
+ ;; open helm buffer in another window
+ helm-split-window-default-side 'other
+ ;; open helm buffer inside current window, not occupy whole other window
+ helm-split-window-in-side-p t
+ helm-candidate-number-limit 200
+ helm-M-x-requires-pattern 0
+ helm-boring-file-regexp-list
+ '("\\.git$" "\\.hg$" "\\.la$" "\\.o$")
+ helm-ff-file-name-history-use-recentf t
+ ;; needed in helm-buffers-list
+ ido-use-virtual-buffers t
+ helm-buffers-fuzzy-matching t
+ )
+
+;; override default bindings with helm equivalents
+(global-set-key (kbd "C-x C-f") 'helm-find-files)
+(global-set-key (kbd "C-x b") 'helm-mini)
+(global-set-key (kbd "M-x") 'helm-M-x)
+
+(global-set-key (kbd "C-c h k") 'helm-show-kill-ring)
+(global-set-key (kbd "C-c h s") 'helm-semantic-or-imenu)
+(global-set-key (kbd "C-c h m") 'helm-man-woman)
+(global-set-key (kbd "C-c h f") 'helm-find)
+
+;; save current position to mark ring
+(add-hook 'helm-goto-line-before-hook 'helm-save-current-pos-to-mark-ring)
+
+(helm-mode 1)
 
 ;-------------------------------------------------------------------------------
 ; evil mode
