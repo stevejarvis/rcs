@@ -130,7 +130,7 @@
  helm-candidate-number-limit 200
  helm-M-x-requires-pattern 0
  helm-boring-file-regexp-list
- '("\\.git$" "\\.hg$" "\\.la$" "\\.o$")
+ '("\\.git$" "\\.hg$" "\\.la$" "\\.o$" "\\.pyc$")
  helm-ff-file-name-history-use-recentf t
  ;; needed in helm-buffers-list
  ido-use-virtual-buffers t
@@ -206,7 +206,7 @@
 (global-set-key (kbd "C-x g l") 'm-magit-log)
 
 ;-------------------------------------------------------------------------------
-; call me maybe
+; languages
 ;-------------------------------------------------------------------------------
 ;; all cc modes
 (defun m-c-mode-common-hook()
@@ -228,11 +228,24 @@
 (add-hook 'c++-mode-hook 'm-c-mode-hook)
 
 ;; python
+(defun m-python-shell-send-buffer-and-switch()
+  "Send the current buffer to a python shell and show that shell."
+  (interactive)
+  ;;; for some reason, save-current-buffer and save-excursion
+  ;;; do not restore the code buffer
+  (python-shell-send-buffer)
+  (python-shell-switch-to-shell)
+  (end-of-buffer)
+  (other-window 1))
+
 (defun m-python-mode-hook()
   (setq python-indent 4
         python-indent-guess-indent-offset nil)
-  (flyspell-prog-mode))
+  (flyspell-prog-mode)
+  (define-key python-mode-map (kbd "C-c C-c")
+    'm-python-shell-send-buffer-and-switch))
 (add-hook 'python-mode-hook 'm-python-mode-hook)
+
 ;; LaTeX
 (defun m-latex-mode-hook()
   (flyspell-mode t)
