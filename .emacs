@@ -8,6 +8,7 @@
                      magit
                      p4
                      helm
+                     markdown-mode
                      zenburn-theme))
 
 (add-to-list 'package-archives
@@ -38,6 +39,7 @@
 (load-theme 'zenburn t)
 (which-function-mode t)
 (tool-bar-mode -1)
+(menu-bar-mode -1)
 
 ;; indentation
 (setq-default indent-tabs-mode nil
@@ -81,7 +83,10 @@
 (global-set-key (kbd "C-c , o") 'ff-find-other-file)
 (show-paren-mode t)
 (global-set-key (kbd "C-c o") 'pop-global-mark)
+;; alt key too hard
 (global-set-key (kbd "C-x C-m") 'execute-extended-command)
+;; shell come to me
+(global-set-key (kbd "C-c C-s") 'eshell)
 
 ;-------------------------------------------------------------------------------
 ; CEDET
@@ -253,6 +258,19 @@
   (setq current-fill-column 80
         fill-column 80))
 (add-hook 'latex-mode-hook 'm-latex-mode-hook)
+
+;; markdown
+(autoload 'markdown-mode "markdown-mode"
+     "Major mode for editing Markdown files" t)
+(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
+
+(defun m-markdown-mode-hook()
+  (flyspell-mode t)
+  (auto-fill-mode t)
+  (setq current-fill-column 80
+        fill-column 80))
+(add-hook 'markdown-mode-hook 'm-markdown-mode-hook)
 
 ;-------------------------------------------------------------------------------
 ; optional settings
