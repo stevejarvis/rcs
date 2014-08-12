@@ -85,8 +85,6 @@
 (global-set-key (kbd "C-c o") 'pop-global-mark)
 ;; alt key too hard
 (global-set-key (kbd "C-x C-m") 'execute-extended-command)
-;; shell come to me
-(global-set-key (kbd "C-c C-s") 'eshell)
 
 ;-------------------------------------------------------------------------------
 ; CEDET
