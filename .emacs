@@ -2,14 +2,8 @@
 ; auto load package
 ;-------------------------------------------------------------------------------
 (require 'package)
-(setq package-list '(evil
-                     sr-speedbar
-                     key-chord
-                     magit
-                     p4
-                     helm
-                     markdown-mode
-                     zenburn-theme))
+(setq package-list '(evil sr-speedbar key-chord magit p4 helm
+                     markdown-mode cider zenburn-theme))
 
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.milkbox.net/packages/") t)
@@ -68,7 +62,8 @@
   (interactive)
   (defvar action-keywords-regex
     (regexp-opt
-     '("TODO" "BUG" "FIXME" "NOTE")
+     '("TODO" "BUG" "FIXME" "NOTE"
+       "@todo" "@bug" "@fixme" "@note")
      'words))
   (highlight-regexp action-keywords-regex 'hi-blue))
 (add-hook 'find-file-hooks 'm-highlight)
@@ -80,11 +75,22 @@
       delete-old-versions t
       backup-by-copying t)
 
-(global-set-key (kbd "C-c , o") 'ff-find-other-file)
+;; auto create matching parens/braces and highlight match
 (show-paren-mode t)
+(electric-pair-mode t)
+
+;; file navigation
+(global-set-key (kbd "C-c , o") 'ff-find-other-file)
 (global-set-key (kbd "C-c o") 'pop-global-mark)
 ;; alt key too hard
 (global-set-key (kbd "C-x C-m") 'execute-extended-command)
+
+;; fix the PATH variable
+(defun m-set-exec-path-from-shell()
+  (let ((path-from-shell (shell-command-to-string "TERM=vt100 $SHELL -i -c 'echo $PATH'")))
+    (setenv "PATH" path-from-shell)
+    (setq exec-path (split-string path-from-shell path-separator))))
+(when window-system (m-set-exec-path-from-shell))
 
 ;-------------------------------------------------------------------------------
 ; CEDET
