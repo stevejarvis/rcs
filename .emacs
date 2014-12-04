@@ -3,7 +3,7 @@
 ;-------------------------------------------------------------------------------
 (require 'package)
 (setq package-list '(evil sr-speedbar key-chord magit p4 helm
-                     markdown-mode cider zenburn-theme))
+                     markdown-mode cider zenburn-theme powerline))
 
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.milkbox.net/packages/") t)
@@ -91,6 +91,9 @@
     (setq exec-path (split-string path-from-shell path-separator))))
 (when window-system (m-set-exec-path-from-shell))
 
+;; powerline
+(powerline-evil-center-color-theme)
+
 ;-------------------------------------------------------------------------------
 ; CEDET
 ;-------------------------------------------------------------------------------
@@ -167,6 +170,10 @@
       evil-want-C-i-jump t)
 (require 'evil)
 (evil-mode t)
+
+;; set modes for different buffers
+(evil-set-initial-state 'git-commit-mode 'emacs)
+(evil-set-initial-state 'dired-mode 'emacs)
 
 ;; insert mode actually be emacs
 (add-hook 'evil-insert-state-entry-hook 'evil-emacs-state)
