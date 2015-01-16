@@ -43,7 +43,6 @@
 (global-set-key (kbd "C-c m") 'compile)
 (global-set-key (kbd "C-c n") 'next-error)
 (global-set-key (kbd "C-c p") 'previous-error)
-(setq compilation-scroll-output t)
 
 ;; scroll-smoothly
 (setq scroll-step 1
@@ -90,6 +89,13 @@
     (setenv "PATH" path-from-shell)
     (setq exec-path (split-string path-from-shell path-separator))))
 (when window-system (m-set-exec-path-from-shell))
+
+;-------------------------------------------------------------------------------
+; compilation settings
+;-------------------------------------------------------------------------------
+(setq compilation-scroll-output t)
+;; 1 - include warnings and errors 2 - include errors
+(setq compilation-skip-threshold 1)
 
 ;-------------------------------------------------------------------------------
 ; powerline
@@ -324,7 +330,8 @@
                                    ("\\.h$" (".cpp"))
                                    ("\\.h$" (".c"))))
   (setq ff-search-directories '("." "../src" "../include"))
-  (setq c-default-style "k&r"))
+  (setq c-default-style "k&r")
+  (c-set-style "k&r"))
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 (add-hook 'c-mode-hook 'm-c-mode-hook)
 (add-hook 'c++-mode-hook 'm-c-mode-hook)

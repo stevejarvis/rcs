@@ -1,5 +1,5 @@
 # set the path
-export PATH=/usr/local/bin:$PATH:/Users/steve/bin:/Users/sjarvis/bin:/usr/texbin
+export PATH=/usr/local/sbin:/usr/local/bin:/Users/steve/bin:/Users/sjarvis/bin:/usr/texbin:$PATH
 
 # history
 setopt hist_ignore_all_dups inc_append_history
@@ -23,7 +23,7 @@ alias emacsw="/Applications/Emacs.app/Contents/MacOS/Emacs &"
 alias p4='p4 -zmaxScanRows=10000000 -zmaxResults=10000000 -zmaxLockTime=600000'
 
 # init colors, prompt
-autoload -U compinit promptinit colors 
+autoload -U compinit promptinit colors
 compinit
 promptinit
 colors
