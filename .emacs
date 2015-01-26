@@ -3,7 +3,7 @@
 ;-------------------------------------------------------------------------------
 (require 'package)
 (setq package-list '(evil sr-speedbar key-chord magit p4 helm
-                     markdown-mode cider zenburn-theme powerline))
+                     markdown-mode cider zenburn-theme powerline company))
 
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.milkbox.net/packages/") t)
@@ -89,6 +89,20 @@
     (setenv "PATH" path-from-shell)
     (setq exec-path (split-string path-from-shell path-separator))))
 (when window-system (m-set-exec-path-from-shell))
+
+;-------------------------------------------------------------------------------
+; company
+;-------------------------------------------------------------------------------
+;; complete anything... immediately
+(defun m-company-hook()
+  (global-company-mode)
+  (setq company-idle-delay 0
+        company-dabbrev-downcase nil
+        company-dabbrev-ignore-case nil)
+  ; C-n/p more natural than M-n/p
+  (define-key company-active-map (kbd "C-n") 'company-select-next)
+  (define-key company-active-map (kbd "C-p") 'company-select-previous))
+(add-hook 'after-init-hook 'm-company-hook)
 
 ;-------------------------------------------------------------------------------
 ; compilation settings
