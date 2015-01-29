@@ -104,6 +104,11 @@
   (define-key company-active-map (kbd "C-p") 'company-select-previous))
 (add-hook 'after-init-hook 'm-company-hook)
 
+;; don't want company in gud-gdb
+(defun m-gud-gdb-hook()
+  (company-mode nil))
+(add-hook 'gdb-mode-hook 'm-gud-gdb-hook)
+
 ;-------------------------------------------------------------------------------
 ; compilation settings
 ;-------------------------------------------------------------------------------
@@ -344,8 +349,8 @@
                                    ("\\.h$" (".cpp"))
                                    ("\\.h$" (".c"))))
   (setq ff-search-directories '("." "../src" "../include"))
-  (setq c-default-style "k&r")
-  (c-set-style "k&r"))
+  (setq c-default-style "stroustrup")
+  (c-set-style "stroustrup"))
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 (add-hook 'c-mode-hook 'm-c-mode-hook)
 (add-hook 'c++-mode-hook 'm-c-mode-hook)
