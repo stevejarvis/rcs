@@ -1,5 +1,5 @@
 # set the path
-export PATH=/usr/local/sbin:/usr/local/bin:/Users/steve/bin:/Users/sjarvis/bin:/usr/texbin:$PATH
+export PATH=/usr/local/sbin:/usr/local/bin:/Users/steve/bin:/Users/sjarvis/bin:/home/sjarvis/bin:/usr/texbin:$PATH
 
 # history
 setopt hist_ignore_all_dups inc_append_history

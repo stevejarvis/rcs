@@ -104,6 +104,11 @@
   (define-key company-active-map (kbd "C-p") 'company-select-previous))
 (add-hook 'after-init-hook 'm-company-hook)
 
+;; don't want company in gud-gdb
+(defun m-gud-gdb-hook()
+  (company-mode nil))
+(add-hook 'gdb-mode-hook 'm-gud-gdb-hook)
+
 ;-------------------------------------------------------------------------------
 ; compilation settings
 ;-------------------------------------------------------------------------------
