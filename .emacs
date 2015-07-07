@@ -33,6 +33,8 @@
 (which-function-mode t)
 (tool-bar-mode -1)
 (menu-bar-mode -1)
+(global-hl-line-mode +1)
+(set-face-background hl-line-face "medium gray")
 
 ;; indentation
 (setq-default indent-tabs-mode nil
@@ -46,7 +48,7 @@
 
 ;; scroll-smoothly
 (setq scroll-step 1
-      scroll-margin 5
+      ;scroll-margin 5 ;; scroll-margin set makes compilation window jump
       scroll-conservatively 10000
       auto-window-vscroll nil)
 
@@ -381,6 +383,12 @@
   (setq current-fill-column 80
         fill-column 80))
 (add-hook 'latex-mode-hook 'm-latex-mode-hook)
+
+;; JavaScript
+(defun m-js-mode-hook()
+  (flyspell-mode t)
+  (setq js-indent-level 2))
+(add-hook 'js-mode-hook 'm-js-mode-hook)
 
 ;; markdown
 (autoload 'markdown-mode "markdown-mode"
