@@ -58,3 +58,7 @@ export EDITOR=emacs
 # set prompt
 PROMPT="%{$fg[green]%}%n@%{$reset_color%}%{$fg[cyan]%}%m %{$fg_no_bold[yellow]%}%1~ %{$reset_color%}%# "
 RPROMPT="[%{$fg_no_bold[yellow]%}%?%{$reset_color%}]"
+
+# Ubuntu dev
+export DEBFULLNAME="Steve Jarvis"
+export DEBEMAIL="sajarvis@bu.edu"
