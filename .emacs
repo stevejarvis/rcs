@@ -3,7 +3,8 @@
 ;-------------------------------------------------------------------------------
 (require 'package)
 (setq package-list '(evil sr-speedbar key-chord magit p4 helm
-                     markdown-mode cider zenburn-theme powerline company))
+                          markdown-mode cider zenburn-theme
+                          powerline powerline-evil company))
 
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.milkbox.net/packages/") t)
