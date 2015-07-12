@@ -3,7 +3,7 @@
 ;-------------------------------------------------------------------------------
 (require 'package)
 (setq package-list '(evil sr-speedbar key-chord magit p4 helm
-                     markdown-mode cider zenburn-theme powerline))
+                     markdown-mode cider zenburn-theme powerline company))
 
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.milkbox.net/packages/") t)
@@ -33,6 +33,8 @@
 (which-function-mode t)
 (tool-bar-mode -1)
 (menu-bar-mode -1)
+(global-hl-line-mode +1)
+(set-face-background hl-line-face "medium gray")
 
 ;; indentation
 (setq-default indent-tabs-mode nil
@@ -46,7 +48,7 @@
 
 ;; scroll-smoothly
 (setq scroll-step 1
-      scroll-margin 5
+      ;scroll-margin 5 ;; scroll-margin set makes compilation window jump
       scroll-conservatively 10000
       auto-window-vscroll nil)
 
@@ -89,6 +91,25 @@
     (setenv "PATH" path-from-shell)
     (setq exec-path (split-string path-from-shell path-separator))))
 (when window-system (m-set-exec-path-from-shell))
+
+;-------------------------------------------------------------------------------
+; company
+;-------------------------------------------------------------------------------
+;; complete anything... immediately
+(defun m-company-hook()
+  (global-company-mode)
+  (setq company-idle-delay 0
+        company-dabbrev-downcase nil
+        company-dabbrev-ignore-case nil)
+  ; C-n/p more natural than M-n/p
+  (define-key company-active-map (kbd "C-n") 'company-select-next)
+  (define-key company-active-map (kbd "C-p") 'company-select-previous))
+(add-hook 'after-init-hook 'm-company-hook)
+
+;; don't want company in gud-gdb
+(defun m-gud-gdb-hook()
+  (company-mode nil))
+(add-hook 'gdb-mode-hook 'm-gud-gdb-hook)
 
 ;-------------------------------------------------------------------------------
 ; compilation settings
@@ -330,8 +351,8 @@
                                    ("\\.h$" (".cpp"))
                                    ("\\.h$" (".c"))))
   (setq ff-search-directories '("." "../src" "../include"))
-  (setq c-default-style "k&r")
-  (c-set-style "k&r"))
+  (setq c-default-style "stroustrup")
+  (c-set-style "stroustrup"))
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 (add-hook 'c-mode-hook 'm-c-mode-hook)
 (add-hook 'c++-mode-hook 'm-c-mode-hook)
@@ -362,6 +383,12 @@
   (setq current-fill-column 80
         fill-column 80))
 (add-hook 'latex-mode-hook 'm-latex-mode-hook)
+
+;; JavaScript
+(defun m-js-mode-hook()
+  (flyspell-mode t)
+  (setq js-indent-level 2))
+(add-hook 'js-mode-hook 'm-js-mode-hook)
 
 ;; markdown
 (autoload 'markdown-mode "markdown-mode"
