@@ -56,8 +56,18 @@ export TERM=xterm-256color
 export EDITOR=emacs
 
 # set prompt
-PROMPT="%{$fg[green]%}%n@%{$reset_color%}%{$fg[cyan]%}%m %{$fg_no_bold[yellow]%}%1~ %{$reset_color%}%# "
-RPROMPT="[%{$fg_no_bold[yellow]%}%?%{$reset_color%}]"
+make_prompt() {
+    DIR=`pwd|sed -e "s|$HOME|~|"`;
+    if [ ${#DIR} -gt 30 ]; then
+      CWD="${DIR:0:12}...${DIR:${#DIR}-15}"
+    else
+      CWD="$DIR"
+    fi
+    PROMPT="%{$fg[green]%}%n@%m %{$fg[cyan]%}$CWD %{$reset_color%}%# "
+    RPROMPT="[%{$fg_no_bold[yellow]%}%?%{$reset_color%}]"
+}
+
+precmd() { make_prompt; }
 
 # Ubuntu dev
 export DEBFULLNAME="Steve Jarvis"
