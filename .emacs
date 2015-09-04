@@ -118,6 +118,8 @@
 (setq compilation-scroll-output t)
 ;; 1 - include warnings and errors 2 - include errors
 (setq compilation-skip-threshold 1)
+;; cap M recompile last target
+(global-set-key (kbd "C-c M") 'recompile)
 
 ;-------------------------------------------------------------------------------
 ; powerline
@@ -292,6 +294,9 @@
 
 ;; insert mode actually be emacs
 (add-hook 'evil-insert-state-entry-hook 'evil-emacs-state)
+
+;; emacs 24.5 suddently stopped respecting evil-want-C-u-scroll
+(define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
 
 ;-------------------------------------------------------------------------------
 ; key chord
