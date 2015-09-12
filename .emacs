@@ -34,8 +34,6 @@
 (which-function-mode t)
 (tool-bar-mode -1)
 (menu-bar-mode -1)
-(global-hl-line-mode +1)
-(set-face-background hl-line-face "medium gray")
 
 ;; indentation
 (setq-default indent-tabs-mode nil
@@ -68,6 +66,8 @@
      'words))
   (highlight-regexp action-keywords-regex 'hi-blue))
 (add-hook 'find-file-hooks 'm-highlight)
+(global-hl-line-mode +1)
+(set-face-background hl-line-face "dark green")
 
 ;; control those backup files
 (setq backup-directory-alist `((".*" . "~/.saves_emacs"))
