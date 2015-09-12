@@ -19,15 +19,18 @@ shopt -s checkwinsize
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
+export EDITOR=$(which emacs)
+
 # set dev specific locations
 export P4CONFIG=${HOME}/.p4c
-export CCSROOT=${HOME}/Perforce/LP-SJARVIS-OSX/Smartgrid
-export TECHNICAL=${CCSROOT}/Technical
+export CCSROOT=${HOME}/Perforce/LP-SJARVIS-OSX
+export TECHNICAL=${CCSROOT}/Smartgrid/Technical
+export CCSUSER=${CCSROOT}/Smartgrid/Users
 export CODE=${TECHNICAL}/Software/Code
 export DEVEL=${CODE}/devel/
 
 alias cdev="cd ${DEVEL}"
-alias cuser="cd ${CCSROOT}/Users/sjarvis"
+alias cuser="cd ${CCSUSER}/sjarvis"
 
 alias main="source /share/ccsenv/ccsenv main"
 alias devel="source /share/ccsenv/ccsenv devel"
@@ -79,5 +82,53 @@ function prompt {
 
 PROMPT_COMMAND=prompt
 
-# path
-export PATH=${HOME}/bin:/usr/local/bin:/usr/texbin:${DEVEL}/tools/python/atlas:${DEVEL}/../builds/scripts:${CCSROOT}/Users/sjarvis/bin:$PATH
+# symlink rcs
+function symlink_rcs {
+    for rc in .bashrc .tmux.conf .vimrc .gitconfig .gdbinit
+    do
+        # assumes rcs is clones to home
+        ln -fs ${HOME}/rcs/${rc} ${HOME}/${rc}
+    done
+    # .emacs goes elsewhere
+    ln -f ${HOME}/rcs/.emacs ${HOME}/.emacs.d/init.el
+}
+
+# docker
+# could auto-start, but don't want to. at least subsequent shells
+# will be ready.
+if [ `docker-machine status default` == "Running" ]
+then
+    eval $(docker-machine env default)
+fi
+
+# create the image if not exist or updated
+function build_tnp_centos {
+    cd ${DEVEL}/tools/dev-tools/ccs-centos7-build
+    docker build -f Dockerfile -t tnp-centos .
+    cd -
+}
+
+# i named the instance "ash"...
+function ash {
+    tnp_centos_name="ash"
+    docker run -ti \
+           --volume=${CCSUSER}/sjarvis/dockerHome:/root/ \
+           --volume=${CCSROOT}:/root/cip \
+           --volume=${HOME}/.emacs.d:/root/.emacs.d/ \
+           --name=${tnp_centos_name} \
+           --workdir=/root \
+           --rm \
+           tnp-centos \
+           bash
+}
+
+# utility function for cleaning up unnamed docker containers
+function docker_rmia {
+    docker rmi $(docker images | grep '^<none>' | awk '{print $3}')
+}
+
+# Ubuntu dev
+export DEBFULLNAME="Steve Jarvis"
+export DEBEMAIL="sajarvis@bu.edu"# path
+
+export PATH=${HOME}/bin:/usr/local/bin:/usr/local/sbin:/usr/texbin:${DEVEL}/tools/python/atlas:${DEVEL}/../builds/scripts:${CCSROOT}Smartgrid/Users/sjarvis/bin:$PATH
