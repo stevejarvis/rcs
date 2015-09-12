@@ -67,7 +67,10 @@
   (highlight-regexp action-keywords-regex 'hi-blue))
 (add-hook 'find-file-hooks 'm-highlight)
 (global-hl-line-mode +1)
-(set-face-background hl-line-face "dark green")
+;; colors look quite a bit different on OS X than CentOS and Ubuntu
+(if (eq system-type 'darwin)
+  (set-face-background hl-line-face "medium gray")
+  (set-face-background hl-line-face "dark green"))
 
 ;; control those backup files
 (setq backup-directory-alist `((".*" . "~/.saves_emacs"))
