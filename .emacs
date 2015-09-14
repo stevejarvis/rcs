@@ -2,8 +2,8 @@
 ; auto load package
 ;-------------------------------------------------------------------------------
 (require 'package)
-(setq package-list '(evil sr-speedbar key-chord magit p4 helm
-                          markdown-mode cider zenburn-theme
+(setq package-list '(evil key-chord magit p4 helm
+                          markdown-mode zenburn-theme
                           powerline powerline-evil company))
 
 (add-to-list 'package-archives
@@ -66,11 +66,17 @@
      'words))
   (highlight-regexp action-keywords-regex 'hi-blue))
 (add-hook 'find-file-hooks 'm-highlight)
+;; highlight current line
 (global-hl-line-mode +1)
 ;; colors look quite a bit different on OS X than CentOS and Ubuntu
 (if (eq system-type 'darwin)
-  (set-face-background hl-line-face "medium gray")
-  (set-face-background hl-line-face "dark green"))
+  (progn
+    (let ((color "medium gray"))
+          (set-face-background hl-line-face color)))
+  (progn
+    (let ((color "dark green"))
+      (set-face-background hl-line-face color)
+      (set-face-attribute 'helm-selection nil :background color))))
 
 ;; control those backup files
 (setq backup-directory-alist `((".*" . "~/.saves_emacs"))
@@ -251,22 +257,20 @@
   'helm-grep-mode-jump-other-window)
 
 (setq
- ;; do not display invisible candidates
- helm-quick-update t
-
- ;; open helm buffer in another window
- helm-split-window-default-side 'other
- ;; open helm buffer inside current window, not occupy whole other window
- helm-split-window-in-side-p t
- helm-candidate-number-limit 200
- helm-M-x-requires-pattern 0
- helm-boring-file-regexp-list
- '("\\.git$" "\\.hg$" "\\.la$" "\\.o$" "\\.pyc$")
- helm-ff-file-name-history-use-recentf t
- ;; needed in helm-buffers-list
- ido-use-virtual-buffers t
- helm-buffers-fuzzy-matching t
- )
+  ;; do not display invisible candidates
+  helm-quick-update t
+  ;; open helm buffer in another window
+  helm-split-window-default-side 'other
+  ;; open helm buffer inside current window, not occupy whole other window
+  helm-split-window-in-side-p t
+  helm-candidate-number-limit 200
+  helm-M-x-requires-pattern 0
+  helm-boring-file-regexp-list
+  '("\\.git$" "\\.hg$" "\\.la$" "\\.o$" "\\.pyc$")
+  helm-ff-file-name-history-use-recentf t
+  ;; needed in helm-buffers-list
+  ido-use-virtual-buffers t
+  helm-buffers-fuzzy-matching t)
 
 ;; override default bindings with helm equivalents
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
@@ -309,12 +313,6 @@
 (key-chord-define evil-visual-state-map "kj" 'evil-normal-state)
 (key-chord-define evil-emacs-state-map "kj" 'evil-normal-state)
 (key-chord-mode t)
-
-;-------------------------------------------------------------------------------
-; sr speedbar
-;-------------------------------------------------------------------------------
-(require 'sr-speedbar)
-(global-set-key (kbd "C-c s") 'sr-speedbar-toggle)
 
 ;-------------------------------------------------------------------------------
 ; version controls
@@ -415,49 +413,8 @@
 ;-------------------------------------------------------------------------------
 ; optional settings
 ;-------------------------------------------------------------------------------
-(require 'vsat nil t)
+;; don't want to load vsat stuff when editing general files in OS X
+(if (not (eq system-type 'darwin))
+    (require 'vsat nil t))
 (require 'local nil t)
 (require 'linux_dev nil t)
-
-;-------------------------------------------------------------------------------
-; mail
-;-------------------------------------------------------------------------------
-(when (require 'mu4e nil t)
-  (global-set-key (kbd "C-x m") 'mu4e)
-
-  (setq mu4e-drafts-folder "/[Gmail].Drafts")
-  (setq mu4e-sent-folder "/[Gmail].Sent Mail")
-  (setq mu4e-trash-folder "/[Gmail].Trash")
-
-  ;; setup some handy shortcuts
-  (setq mu4e-maildir-shortcuts
-        '( ("/INBOX" . ?i)
-           ("/[Gmail].Sent Mail" . ?s)
-           ("/[Gmail].Trash" . ?t)
-           ("/[Gmail].All Mail" . ?a)))
-
-  ;; allow for updating mail using 'U' in the main view:
-  (setq mu4e-get-mail-command "offlineimap"
-        mu4e-update-interval 300)
-
-  ;; something about ourselves
-  (setq
-   user-mail-address "sajarvis@bu.edu"
-   user-full-name "Steve Jarvis")
-
-  ;; rendering
-  (setq mu4e-html2text-command "w3m")
-
-  ;; sending mail
-  (require 'smtpmail)
-  (setq message-send-mail-function 'smtpmail-send-it
-        starttls-use-gnutls t
-        smtpmail-starttls-credentials '(("smtp.bu.edu" 587 nil nil))
-        smtpmail-auth-credentials
-        '(("smtp.bu.edu" 587 "sajarvis@bu.edu" nil))
-        smtpmail-default-smtp-server "smtp.bu.edu"
-        smtpmail-smtp-server "smtp.bu.edu"
-        smtpmail-smtp-service 587)
-
-  ;; don't keep message buffers around
-  (setq message-kill-buffer-on-exit t))
