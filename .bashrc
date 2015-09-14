@@ -96,7 +96,7 @@ function symlink_rcs {
 # docker
 # could auto-start, but don't want to. at least subsequent shells
 # will be ready.
-if [ `docker-machine status default` == "Running" ]
+if [ -n "$(which docker-machine 2>/dev/null)" ] && [ `docker-machine status default` == "Running" ]
 then
     eval $(docker-machine env default)
 fi
