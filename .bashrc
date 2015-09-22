@@ -23,9 +23,9 @@ export EDITOR=$(which emacs)
 
 # set dev specific locations
 export P4CONFIG=${HOME}/.p4c
-export CCSROOT=${HOME}/Perforce/LP-SJARVIS-OSX
-export TECHNICAL=${CCSROOT}/Smartgrid/Technical
-export CCSUSER=${CCSROOT}/Smartgrid/Users
+export CCSROOT=${HOME}/Perforce/
+export TECHNICAL=${CCSROOT}/Technical
+export CCSUSER=${CCSROOT}/Users
 export CODE=${TECHNICAL}/Software/Code
 export DEVEL=${CODE}/devel/
 
@@ -108,23 +108,26 @@ function build_tnp_centos {
     cd -
 }
 
-# i named the instance "ash"...
-function ash {
-    tnp_centos_name="ash"
-    docker run -ti \
-           --volume=${CCSUSER}/sjarvis/dockerHome:/root/ \
-           --volume=${CCSROOT}:/root/cip \
-           --volume=${HOME}/.emacs.d:/root/.emacs.d/ \
-           --name=${tnp_centos_name} \
-           --workdir=/root \
-           --rm \
-           tnp-centos \
-           bash
+# run our container, dg = "docker go"
+function dg { 
+    ${TECHNICAL}/Software/tools/dev-tools/docker_run_as.sh -d \
+        "--volume=${CCSUSER}/sjarvis/dockerHome:/home/`whoami`/ \
+         --volume=${CCSROOT}:/home/`whoami`/cip/ \
+         --volume=${HOME}/.emacs.d:/`whoami`/.emacs.d/ \
+         --workdir=/home/`whoami` \
+         --rm \
+         tnp-centos "\
+         -r " mkdir /share && chown `whoami` /share"
 }
 
-# utility function for cleaning up unnamed docker containers
+# utility function for cleaning up unnamed docker images
 function docker_rmia {
     docker rmi $(docker images | grep '^<none>' | awk '{print $3}')
+}
+
+# utility function delete all current containers
+function docker_rma {
+    docker rm $(docker ps -a -q)
 }
 
 # Ubuntu dev
