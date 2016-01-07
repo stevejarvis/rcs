@@ -91,7 +91,7 @@ function symlink_rcs {
         ln -fs ${HOME}/rcs/${rc} ${HOME}/${rc}
     done
     # .emacs goes elsewhere
-    ln -f ${HOME}/rcs/.emacs ${HOME}/.emacs.d/init.el
+    ln -fs ${HOME}/rcs/.emacs ${HOME}/.emacs.d/init.el
 }
 
 # docker

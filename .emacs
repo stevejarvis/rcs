@@ -68,15 +68,6 @@
 (add-hook 'find-file-hooks 'm-highlight)
 ;; highlight current line
 (global-hl-line-mode +1)
-;; colors look quite a bit different on OS X than CentOS and Ubuntu
-(if (eq system-type 'darwin)
-  (progn
-    (let ((color "medium gray"))
-          (set-face-background hl-line-face color)))
-  (progn
-    (let ((color "dark green"))
-      (set-face-background hl-line-face color)
-      (set-face-attribute 'helm-selection nil :background color))))
 
 ;; control those backup files
 (setq backup-directory-alist `((".*" . "~/.saves_emacs"))
@@ -330,7 +321,7 @@
 (defun m-magit-status()
   "prefix function for magit status"
   (interactive)
-  (magit-status default-directory))
+  (magit-status))
 
 (defun m-magit-log()
   "prefix function for magit log"
