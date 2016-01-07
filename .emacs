@@ -2,7 +2,7 @@
 ; auto load package
 ;-------------------------------------------------------------------------------
 (require 'package)
-(setq package-list '(evil key-chord magit p4 helm
+(setq package-list '(evil key-chord magit p4 helm neotree
                           markdown-mode zenburn-theme
                           powerline powerline-evil company))
 
@@ -277,6 +277,18 @@
 (add-hook 'helm-goto-line-before-hook 'helm-save-current-pos-to-mark-ring)
 
 (helm-mode 1)
+
+;-------------------------------------------------------------------------------
+; neotree
+;-------------------------------------------------------------------------------
+(require 'neotree)
+(global-set-key (kbd "C-c C-n") 'neotree-toggle)
+(add-hook 'neotree-mode-hook
+          (lambda ()
+            (define-key evil-normal-state-local-map (kbd "TAB") 'neotree-enter)
+            (define-key evil-normal-state-local-map (kbd "SPC") 'neotree-enter)
+            (define-key evil-normal-state-local-map (kbd "q") 'neotree-hide)
+            (define-key evil-normal-state-local-map (kbd "RET") 'neotree-enter)))
 
 ;-------------------------------------------------------------------------------
 ; evil mode
