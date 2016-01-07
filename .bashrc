@@ -23,7 +23,8 @@ export EDITOR=$(which emacs)
 
 # set dev specific locations
 export P4CONFIG=${HOME}/.p4c
-export CCSROOT=${HOME}/Perforce/
+export CCSROOT=${HOME}/Perforce/cip
+export CCSROOTALT=${HOME}/Perforce/cip2
 export TECHNICAL=${CCSROOT}/Technical
 export CCSUSER=${CCSROOT}/Users
 export CODE=${TECHNICAL}/Software/Code
@@ -96,9 +97,9 @@ function symlink_rcs {
 # docker
 # could auto-start, but don't want to. at least subsequent shells
 # will be ready.
-if [ -n "$(which docker-machine 2>/dev/null)" ] && [ `docker-machine status default` == "Running" ]
+if [ -n "$(which docker-machine 2>/dev/null)" ] && [ `docker-machine status defware` == "Running" ]
 then
-    eval $(docker-machine env default)
+    eval $(docker-machine env defware)
 fi
 
 # create the image if not exist or updated
@@ -108,16 +109,32 @@ function build_tnp_centos {
     cd -
 }
 
-# run our container, dg = "docker go"
-function dg { 
-    ${TECHNICAL}/Software/tools/dev-tools/docker_run_as.sh -d \
+# run our containers
+function sg-centos {
+    ${TECHNICAL}/Software/tools/scripts/docker_run_as.sh -d \
         "--volume=${CCSUSER}/sjarvis/dockerHome:/home/`whoami`/ \
          --volume=${CCSROOT}:/home/`whoami`/cip/ \
-         --volume=${HOME}/.emacs.d:/`whoami`/.emacs.d/ \
+         --volume=${CCSROOTALT}:/home/`whoami`/cip2/ \
+         --volume=${HOME}/.emacs.d:/home/`whoami`/.emacs.d/ \
          --workdir=/home/`whoami` \
          --rm \
-         tnp-centos "\
+         artifactory.viasat.com:8093/cip/ccs-build-centos7:latest "\
          -r " mkdir /share && chown `whoami` /share"
+}
+
+function sg-ubu {
+    ${TECHNICAL}/Software/tools/scripts/docker_run_as.sh -d \
+        "--volume=${CCSUSER}/sjarvis/dockerHome:/home/`whoami`/ \
+         --volume=${CCSROOT}:/home/`whoami`/cip/ \
+         --volume=${CCSROOTALT}:/home/`whoami`/cip2/ \
+         --volume=${HOME}/.emacs.d:/home/`whoami`/.emacs.d/ \
+         --workdir=/home/`whoami` \
+         --rm \
+         artifactory.viasat.com:8093/cip/ccs-build-ubuntu10:latest "\
+         -r " mkdir /share && chown `whoami` /share && \
+             (/usr/sbin/mysqld &) && \
+             sleep 1 && mysqladmin -u root password sgadmin && \
+             (/usr/bin/mongod --dbpath /var/lib/mongodb &)"
 }
 
 # utility function for cleaning up unnamed docker images
