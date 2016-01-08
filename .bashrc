@@ -23,32 +23,20 @@ export EDITOR=$(which emacs)
 
 # set dev specific locations
 export P4CONFIG=${HOME}/.p4c
-export CCSROOT=${HOME}/Perforce/cip
-export CCSROOTALT=${HOME}/Perforce/cip2
-export TECHNICAL=${CCSROOT}/Technical
-export CCSUSER=${CCSROOT}/Users
-export CODE=${TECHNICAL}/Software/Code
-export DEVEL=${CODE}/devel/
 
-alias cdev="cd ${DEVEL}"
-alias cuser="cd ${CCSUSER}/sjarvis"
-
-alias main="source /share/ccsenv/ccsenv main"
-alias devel="source /share/ccsenv/ccsenv devel"
-alias p4='p4 -zmaxScanRows=10000000 -zmaxResults=10000000 -zmaxLockTime=600000'
-alias hd='hexdump'
+alias p4="p4 -zmaxScanRows=10000000 -zmaxResults=10000000 -zmaxLockTime=600000"
+alias hd="hexdump"
 
 alias ls="ls -G"
 alias ll="ls -l"
 alias la="ls -a"
 alias sl="ls"
 alias grep="grep --color=auto"
+# force password, avoid "too many authentication failures"
+alias sshp="ssh -o PreferredAuthentications=password -o PubkeyAuthentication=no"
 
 export CLICOLOR=1
 export LSCOLORS=GxFxCxDxBxegedabagaced
-
-# just for now...
-export GTAFUSER=jarvis
 
 # make the prompt
 function prompt {
@@ -102,41 +90,6 @@ then
     eval $(docker-machine env defware)
 fi
 
-# create the image if not exist or updated
-function build_tnp_centos {
-    cd ${DEVEL}/tools/dev-tools/ccs-centos7-build
-    docker build -f Dockerfile -t tnp-centos .
-    cd -
-}
-
-# run our containers
-function sg-centos {
-    ${TECHNICAL}/Software/tools/scripts/docker_run_as.sh -d \
-        "--volume=${CCSUSER}/sjarvis/dockerHome:/home/`whoami`/ \
-         --volume=${CCSROOT}:/home/`whoami`/cip/ \
-         --volume=${CCSROOTALT}:/home/`whoami`/cip2/ \
-         --volume=${HOME}/.emacs.d:/home/`whoami`/.emacs.d/ \
-         --workdir=/home/`whoami` \
-         --rm \
-         artifactory.viasat.com:8093/cip/ccs-build-centos7:latest "\
-         -r " mkdir /share && chown `whoami` /share"
-}
-
-function sg-ubu {
-    ${TECHNICAL}/Software/tools/scripts/docker_run_as.sh -d \
-        "--volume=${CCSUSER}/sjarvis/dockerHome:/home/`whoami`/ \
-         --volume=${CCSROOT}:/home/`whoami`/cip/ \
-         --volume=${CCSROOTALT}:/home/`whoami`/cip2/ \
-         --volume=${HOME}/.emacs.d:/home/`whoami`/.emacs.d/ \
-         --workdir=/home/`whoami` \
-         --rm \
-         artifactory.viasat.com:8093/cip/ccs-build-ubuntu10:latest "\
-         -r " mkdir /share && chown `whoami` /share && \
-             (/usr/sbin/mysqld &) && \
-             sleep 1 && mysqladmin -u root password sgadmin && \
-             (/usr/bin/mongod --dbpath /var/lib/mongodb &)"
-}
-
 # utility function for cleaning up unnamed docker images
 function docker_rmia {
     docker rmi $(docker images | grep '^<none>' | awk '{print $3}')
@@ -151,4 +104,16 @@ function docker_rma {
 export DEBFULLNAME="Steve Jarvis"
 export DEBEMAIL="sajarvis@bu.edu"# path
 
-export PATH=${HOME}/bin:/usr/local/bin:/usr/local/sbin:/usr/texbin:${DEVEL}/tools/python/atlas:${DEVEL}/../builds/scripts:${CCSROOT}Smartgrid/Users/sjarvis/bin:$PATH
+# add directory to path only if it doesn't already exist and is a dir
+# paths are prepended
+pathadd() {
+    if [ -d "$1" ] && [[ ":$PATH:" != *":$1:"* ]]; then
+        PATH="$1:${PATH+"$PATH"}"
+    fi
+}
+
+pathadd /usr/local/bin
+pathadd /usr/local/sbin
+pathadd /usr/texbin
+pathadd ${HOME}/.local/bin
+pathadd ${HOME}/bin
