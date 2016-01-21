@@ -128,96 +128,6 @@
 (global-flycheck-mode)
 
 ;-------------------------------------------------------------------------------
-; powerline
-;-------------------------------------------------------------------------------
-(powerline-evil-center-color-theme)
-;; format -- adapted from the default evil powerline
-(setq-default mode-line-format
-  (quote
-   ("%e"
-    (:eval
-     (let*
-         ((active
-           (powerline-selected-window-active))
-          (mode-line
-           (if active 'mode-line 'mode-line-inactive))
-          (face1
-           (if active 'powerline-active1 'powerline-inactive1))
-          (face2
-           (if active 'powerline-active2 'powerline-inactive2))
-          (separator-left
-           (intern
-            (format "powerline-%s-%s" powerline-default-separator
-                    (car powerline-default-separator-dir))))
-          (separator-right
-           (intern
-            (format "powerline-%s-%s" powerline-default-separator
-                    (cdr powerline-default-separator-dir))))
-          (lhs
-           (list
-            (powerline-raw "%*" nil 'l)
-            (powerline-buffer-size nil 'l)
-            (powerline-buffer-id nil 'l)
-            (powerline-raw " ")
-            (funcall separator-left mode-line face1)
-            (powerline-narrow face1 'l)
-            (powerline-vc face1)))
-          (rhs
-           (list
-            (powerline-raw global-mode-string face1 'r)
-            (powerline-raw "%4l" face1 'r)
-            (powerline-raw ":" face1)
-            (powerline-raw "%3c" face1 'r)
-            (funcall separator-right face1 mode-line)
-            (powerline-raw " ")
-            (powerline-raw "%6p" nil 'r)
-            (powerline-hud face2 face1)))
-          (center
-           (append
-            (list
-             (powerline-raw " " face1)
-             (funcall separator-left face1 face2)
-             (when
-                 (boundp 'erc-modified-channels-object)
-               (powerline-raw erc-modified-channels-object face2 'l))
-             (powerline-major-mode face2 'l)
-             (powerline-process face2)
-             (powerline-raw " " face2))
-            (let
-                ((evil-face
-                  (powerline-evil-face)))
-              (if
-                  (split-string
-                   (format-mode-line minor-mode-alist))
-                  (append
-                   (if evil-mode
-                       (list
-                        (funcall separator-right face2 evil-face)
-                        (powerline-raw
-                         (powerline-evil-tag)
-                         evil-face 'l)
-                        (powerline-raw " " evil-face)
-                        (funcall separator-left evil-face face2)))
-                   (list
-                    (powerline-raw " " face2)
-                    (funcall separator-right face2 face1)))
-                (list
-                 (powerline-raw
-                  (powerline-evil-tag)
-                  evil-face)
-                 (funcall separator-right evil-face face1)))))))
-       (concat
-        (powerline-render lhs)
-        (powerline-fill-center face1
-                               (/
-                                (powerline-width center)
-                                2.0))
-        (powerline-render center)
-        (powerline-fill face1
-                        (powerline-width rhs))
-        (powerline-render rhs)))))))
-
-;-------------------------------------------------------------------------------
 ; CEDET
 ;-------------------------------------------------------------------------------
 (add-to-list 'semantic-default-submodes 'global-semantic-idle-scheduler-mode)
@@ -329,30 +239,19 @@
 (require 'p4)
 (require 'magit)
 
-(defun m-magit-blame()
-  "prefix function for magit blame"
-  (interactive)
-  (progn
-    (magit-blame-mode)
-    (evil-emacs-state)))
-
-(defun m-magit-status()
-  "prefix function for magit status"
-  (interactive)
-  (magit-status))
-
-(defun m-magit-log()
-  "prefix function for magit log"
-  (interactive)
-  (magit-log))
-
-(global-set-key (kbd "C-x g s") 'm-magit-status)
-(global-set-key (kbd "C-x g b") 'm-magit-blame)
-(global-set-key (kbd "C-x g l") 'm-magit-log)
+(global-set-key (kbd "C-x g s") 'magit-status)
+(global-set-key (kbd "C-x g b") 'magit-blame)
 
 ;-------------------------------------------------------------------------------
 ; languages
 ;-------------------------------------------------------------------------------
+;; plain text that would be nice to wrap and spellcheck
+(defun m-plaintext-hook()
+  (flyspell-mode t)
+  (auto-fill-mode t)
+  (setq current-fill-column 80
+        fill-column 80))
+
 ;; all cc modes
 (defun m-c-mode-common-hook()
   (setq c-basic-offset 4
@@ -392,17 +291,9 @@
     'm-python-shell-send-buffer-and-switch))
 (add-hook 'python-mode-hook 'm-python-mode-hook)
 
-;; LaTeX
-(defun m-latex-mode-hook()
-  (flyspell-mode t)
-  (auto-fill-mode t)
-  (setq current-fill-column 80
-        fill-column 80))
-(add-hook 'latex-mode-hook 'm-latex-mode-hook)
-
 ;; JavaScript
 (defun m-js-mode-hook()
-  (flyspell-mode t)
+  (flyspell-prog-mode)
   (setq js-indent-level 2))
 (add-hook 'js-mode-hook 'm-js-mode-hook)
 
@@ -411,19 +302,14 @@
   "Major mode for editing Markdown files" t)
 (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
+(add-hook 'markdown-mode-hook 'm-plaintext-hook)
 
-(defun m-markdown-mode-hook()
-  (flyspell-mode t)
-  (auto-fill-mode t)
-  (setq current-fill-column 80
-        fill-column 80))
-(add-hook 'markdown-mode-hook 'm-markdown-mode-hook)
+;; LaTex
+(add-hook 'latex-mode-hook 'm-plaintext-hook)
 
 ;-------------------------------------------------------------------------------
 ; optional settings
 ;-------------------------------------------------------------------------------
 ;; don't want to load vsat stuff when editing general files in OS X
-(if (not (eq system-type 'darwin))
-    (require 'vsat nil t))
 (require 'local nil t)
 (require 'linux_dev nil t)
