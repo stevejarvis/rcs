@@ -4,7 +4,7 @@
 (require 'package)
 (setq package-list '(evil key-chord magit p4 helm neotree
                           markdown-mode zenburn-theme
-                          powerline powerline-evil company))
+                          powerline powerline-evil company flycheck))
 
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.milkbox.net/packages/") t)
@@ -120,6 +120,12 @@
 (setq compilation-skip-threshold 1)
 ;; cap M recompile last target
 (global-set-key (kbd "C-c M") 'recompile)
+
+;-------------------------------------------------------------------------------
+; flycheck
+;-------------------------------------------------------------------------------
+(require 'flycheck)
+(global-flycheck-mode)
 
 ;-------------------------------------------------------------------------------
 ; powerline
