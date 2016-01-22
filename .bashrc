@@ -2,6 +2,9 @@
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
+# source functions file
+[ -f ${HOME}/rcs/functions.sh ] && source ${HOME}/rcs/functions.sh
+
 # don't put duplicate lines in the history. See bash(1) for more options
 HISTCONTROL=ignoredups
 
@@ -89,16 +92,6 @@ if [ -n "$(which docker-machine 2>/dev/null)" ] && [ `docker-machine status defw
 then
     eval $(docker-machine env defware)
 fi
-
-# utility function for cleaning up unnamed docker images
-function docker_rmia {
-    docker rmi $(docker images | grep '^<none>' | awk '{print $3}')
-}
-
-# utility function delete all current containers
-function docker_rma {
-    docker rm $(docker ps -a -q)
-}
 
 # Ubuntu dev
 export DEBFULLNAME="Steve Jarvis"
