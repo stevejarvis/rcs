@@ -2,9 +2,10 @@
 ; auto load package
 ;-------------------------------------------------------------------------------
 (require 'package)
-(setq package-list '(evil key-chord magit p4 helm neotree
-                          markdown-mode zenburn-theme
-                          powerline powerline-evil company flycheck))
+(setq package-list '(evil key-chord magit p4
+                          helm helm-projectile projectile flx-ido
+                          neotree markdown-mode zenburn-theme
+                          powerline powerline-evil auto-complete flycheck))
 
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.milkbox.net/packages/") t)
@@ -83,8 +84,6 @@
 ;; file navigation
 (global-set-key (kbd "C-c , o") 'ff-find-other-file)
 (global-set-key (kbd "C-c o") 'pop-global-mark)
-;; alt key too hard
-(global-set-key (kbd "C-x C-m") 'execute-extended-command)
 
 ;; fix the PATH variable
 (defun m-set-exec-path-from-shell()
@@ -94,23 +93,9 @@
 (when window-system (m-set-exec-path-from-shell))
 
 ;-------------------------------------------------------------------------------
-; company
+; auto-complete
 ;-------------------------------------------------------------------------------
-;; complete anything... immediately
-(defun m-company-hook()
-  (global-company-mode)
-  (setq company-idle-delay 0
-        company-dabbrev-downcase nil
-        company-dabbrev-ignore-case nil)
-  ; C-n/p more natural than M-n/p
-  (define-key company-active-map (kbd "C-n") 'company-select-next)
-  (define-key company-active-map (kbd "C-p") 'company-select-previous))
-(add-hook 'after-init-hook 'm-company-hook)
-
-;; don't want company in gud-gdb
-(defun m-gud-gdb-hook()
-  (company-mode nil))
-(add-hook 'gdb-mode-hook 'm-gud-gdb-hook)
+(ac-config-default)
 
 ;-------------------------------------------------------------------------------
 ; compilation settings
@@ -145,9 +130,13 @@
 (global-set-key (kbd "C-c SPC") 'semantic-ia-complete-symbol)
 
 ;-------------------------------------------------------------------------------
-; helm
+; helm and projectile
 ;-------------------------------------------------------------------------------
 (require 'helm)
+(require 'helm-projectile)
+(projectile-global-mode)
+(setq projectile-completion-system 'helm)
+(helm-projectile-on)
 (require 'helm-config)
 (require 'helm-eshell)
 (require 'helm-files)
@@ -182,6 +171,8 @@
 ;; override default bindings with helm equivalents
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
 (global-set-key (kbd "C-x b") 'helm-mini)
+;; alt key too hard
+(global-set-key (kbd "C-x C-m") 'helm-M-x)
 (global-set-key (kbd "M-x") 'helm-M-x)
 
 (global-set-key (kbd "C-c h k") 'helm-show-kill-ring)
