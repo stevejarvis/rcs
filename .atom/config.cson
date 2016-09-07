@@ -1,0 +1,42 @@
+"*":
+  "build-make": {}
+  core:
+    customFileTypes:
+      "source.ini": [
+        ".buckconfig"
+        ".flowconfig"
+      ]
+      "source.json": [
+        ".arcconfig"
+        "BUCK.autodeps"
+      ]
+      "source.python": [
+        "BUCK"
+      ]
+    disabledPackages: [
+      "tree-view"
+    ]
+  editor:
+    invisibles: {}
+  "exception-reporting":
+    userId: "8d6f47c4-9521-2dec-6c6f-fe545dec2960"
+  "file-watcher":
+    promptWhenFileHasChangedOnDisk: false
+  latex:
+    alwaysOpenResultInAtom: true
+  nuclide:
+    installRecommendedPackages: true
+    "nuclide-code-format":
+      formatOnSave: true
+    "nuclide-distraction-free-mode":
+      hideToolBar: true
+    "nuclide-flow":
+      canUseFlowBin: true
+    "nuclide-working-sets": {}
+  "preview-plus": {}
+  "tool-bar":
+    visible: false
+  "tree-view":
+    hideVcsIgnoredFiles: true
+  welcome:
+    showOnStartup: false

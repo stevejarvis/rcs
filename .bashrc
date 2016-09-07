@@ -1,9 +1,7 @@
-# ~/.bashrc: executed by bash(1) for non-login shells.
-# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
-# for examples
+# Assumes config files exist in ~/.rcs/
 
 # source functions file
-[ -f ${HOME}/rcs/functions.sh ] && source ${HOME}/rcs/functions.sh
+[ -f ${HOME}/.rcs/functions.sh ] && source ${HOME}/.rcs/functions.sh
 
 # don't put duplicate lines in the history. See bash(1) for more options
 HISTCONTROL=ignoredups
@@ -37,6 +35,8 @@ alias sl="ls"
 alias grep="grep --color=auto"
 # force password, avoid "too many authentication failures"
 alias sshp="ssh -o PreferredAuthentications=password -o PubkeyAuthentication=no"
+# emacs adjusted for HDPI scaling, will roughly double after init
+alias emacsw="emacs --geometry=24x9"
 
 export CLICOLOR=1
 export LSCOLORS=GxFxCxDxBxegedabagaced
@@ -78,24 +78,27 @@ PROMPT_COMMAND=prompt
 function symlink_rcs {
     for rc in .bashrc .tmux.conf .vimrc .gitconfig .gdbinit
     do
-        # assumes rcs is clones to home
-        ln -fs ${HOME}/rcs/${rc} ${HOME}/${rc}
+        # assumes rcs is cloned to ~/.rcs
+        ln -fs ${HOME}/.rcs/${rc} ${HOME}/${rc}
     done
     # .emacs goes elsewhere
-    ln -fs ${HOME}/rcs/.emacs ${HOME}/.emacs.d/init.el
+    ln -fs ${HOME}/.rcs/.emacs ${HOME}/.emacs.d/init.el
 }
 
 # docker
 # could auto-start, but don't want to. at least subsequent shells
 # will be ready.
-if [ -n "$(which docker-machine 2>/dev/null)" ] && [ `docker-machine status defware` == "Running" ]
+if [ -n "$(which docker-machine 2>/dev/null)" ] && [ `docker-machine status default` == "Running" ]
 then
-    eval $(docker-machine env defware)
+    eval $(docker-machine env default)
 fi
 
 # Ubuntu dev
 export DEBFULLNAME="Steve Jarvis"
-export DEBEMAIL="sajarvis@bu.edu"# path
+export DEBEMAIL="sajarvis@bu.edu"
+
+# Ruby
+[ -f ${HOME}/.rvm/scripts/rvm ] && source ${HOME}/.rvm/scripts/rvm
 
 # add directory to path only if it doesn't already exist and is a dir
 # paths are prepended
@@ -110,3 +113,12 @@ pathadd /usr/local/sbin
 pathadd /usr/texbin
 pathadd ${HOME}/.local/bin
 pathadd ${HOME}/bin
+pathadd ${HOME}/.rvm/bin
+pathadd ${HOME}/.AndroidSDK/tools
+pathadd ${HOME}/.AndroidSDK/platform-tools
+export PATH
+
+export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+
+export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
+export ANDROID_HOME=/home/sjarvis/.AndroidSDK/

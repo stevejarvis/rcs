@@ -3,7 +3,7 @@
 ;-------------------------------------------------------------------------------
 (require 'package)
 (setq package-list '(evil key-chord magit p4
-                          helm helm-projectile projectile flx-ido
+                          helm projectile helm-projectile flx-ido
                           neotree markdown-mode zenburn-theme
                           powerline powerline-evil auto-complete flycheck))
 
@@ -54,7 +54,6 @@
 
 ;; highlight
 (require 'whitespace)
-(setq whitespace-style '(face lines-tail))
 (global-whitespace-mode t)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 (defun m-highlight ()
@@ -239,9 +238,7 @@
 ;; plain text that would be nice to wrap and spellcheck
 (defun m-plaintext-hook()
   (flyspell-mode t)
-  (auto-fill-mode t)
-  (setq current-fill-column 80
-        fill-column 80))
+  (auto-fill-mode t))
 
 ;; all cc modes
 (defun m-c-mode-common-hook()
@@ -293,10 +290,18 @@
   "Major mode for editing Markdown files" t)
 (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
+;;; markdown preview needs a markdown parser in path
+;;; symlink "~/bin/markdown" to an app that can do it
+(setq markdown-command (format "%s/bin/markdown" (getenv "HOME")))
 (add-hook 'markdown-mode-hook 'm-plaintext-hook)
 
 ;; LaTex
+(defun m-latex-mode-hook()
+  ;;; M-q to reformat current paragraph
+  (auto-fill-mode)
+  (set-fill-column 80))
 (add-hook 'latex-mode-hook 'm-plaintext-hook)
+(add-hook 'latex-mode-hook 'm-latex-mode-hook)
 
 ;-------------------------------------------------------------------------------
 ; optional settings
