@@ -53,8 +53,6 @@
       auto-window-vscroll nil)
 
 ;; highlight
-(require 'whitespace)
-(global-whitespace-mode t)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 (defun m-highlight ()
   "highlight keywords, like TODO"
