@@ -4,23 +4,26 @@
 ;-------------------------------------------------------------------------------
 ; auto-fetch things from melpa
 (require 'package)
-(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 
 (setq package-list '(; keys and usability
                      evil
                      key-chord
                      helm
                      projectile helm-projectile
-                     neotree
+                     ;neotree
                      powerline powerline-evil
                      auto-complete
                      flycheck
+		     ; actually install ag/silver searcher for ag and dumb-search
 		     ag
-		     helm-ag
+		     dumb-jump
+        	     ;helm-ag
                      ; source control
                      magit
                      ; theme
                      solarized-theme
+                     zenburn-theme
                      ; languages beyond what's baked in
                      markdown-mode
                      go-mode
@@ -46,7 +49,7 @@
 ;-------------------------------------------------------------------------------
 ;; theme
 (setq inhibit-startup-message t)
-(load-theme 'solarized-dark t)
+(load-theme 'zenburn t)
 ;; font size, height is 1/10 "size", so 120 = 12pt.
 (set-face-attribute 'default nil :height 140)
 ;;; get rid of the typical GUI menu bar
@@ -158,16 +161,21 @@
 (helm-mode 1)
 
 ;-------------------------------------------------------------------------------
+; turn on xref for dumb-jump
+;-------------------------------------------------------------------------------
+(add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
+
+;-------------------------------------------------------------------------------
 ; neotree
 ;-------------------------------------------------------------------------------
-(require 'neotree)
-(global-set-key (kbd "C-c C-n") 'neotree-toggle)
-(add-hook 'neotree-mode-hook
-          (lambda ()
-            (define-key evil-normal-state-local-map (kbd "TAB") 'neotree-enter)
-            (define-key evil-normal-state-local-map (kbd "SPC") 'neotree-enter)
-            (define-key evil-normal-state-local-map (kbd "q") 'neotree-hide)
-            (define-key evil-normal-state-local-map (kbd "RET") 'neotree-enter)))
+;(require 'neotree)
+;(global-set-key (kbd "C-c C-n") 'neotree-toggle)
+;(add-hook 'neotree-mode-hook
+;          (lambda ()
+;            (define-key evil-normal-state-local-map (kbd "TAB") 'neotree-enter)
+;            (define-key evil-normal-state-local-map (kbd "SPC") 'neotree-enter)
+;            (define-key evil-normal-state-local-map (kbd "q") 'neotree-hide)
+;            (define-key evil-normal-state-local-map (kbd "RET") 'neotree-enter)))
 
 ;-------------------------------------------------------------------------------
 ; evil mode
@@ -282,17 +290,3 @@
   (set-fill-column 80))
 (add-hook 'latex-mode-hook 'm-plaintext-hook)
 (add-hook 'latex-mode-hook 'm-latex-mode-hook)
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (pug-mode ag helm-ag solarized-theme zenburn-theme xref-js2 powerline-evil p4 neotree markdown-mode magit key-chord js2-refactor helm-projectile go-mode flycheck flx-ido auto-complete))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )

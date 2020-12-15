@@ -22,7 +22,7 @@ set hlsearch
 set smartcase
 set scrolloff=5
 " highlight lines over 80
-match Error /\%81v.\+/
+" match Error /\%81v.\+/
 
 " vundle!
 "
@@ -31,23 +31,23 @@ set nocompatible               " be iMproved
 filetype off                   " required!
 
 set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+"call vundle#rc()
 
 " let vundle manage vundle
-Bundle 'gmarik/vundle'
+"Bundle 'gmarik/vundle'
 
 " github
-Bundle 'xolox/vim-misc'
-Bundle 'derekwyatt/vim-fswitch'
-Bundle 'stevejarvis/cscope.vim.git'
-Bundle 'scrooloose/syntastic'
-Bundle 'scrooloose/nerdtree'
-Bundle 'rking/ag.vim'
-Bundle 'tpope/vim-fugitive'
+"Bundle 'xolox/vim-misc'
+"Bundle 'derekwyatt/vim-fswitch'
+"Bundle 'stevejarvis/cscope.vim.git'
+"Bundle 'scrooloose/syntastic'
+"Bundle 'scrooloose/nerdtree'
+"Bundle 'rking/ag.vim'
+"Bundle 'tpope/vim-fugitive'
 " vim scripts
-Bundle 'Python-mode-klen'
-Bundle 'easytags.vim'
-Bundle 'Tagbar'
+"Bundle 'Python-mode-klen'
+"Bundle 'easytags.vim'
+"Bundle 'Tagbar'
 
 filetype indent plugin on     " required!
 

@@ -1,74 +1,129 @@
-# set the path
-export PATH=/usr/local/sbin:/usr/local/bin:/Users/steve/bin:/Users/sjarvis/bin:/home/sjarvis/bin:/usr/texbin:$PATH
+# If you come from bash you might have to change your $PATH.
+# export PATH=$HOME/bin:/usr/local/bin:$PATH
 
-# history
-setopt hist_ignore_all_dups inc_append_history
-HISTFILE=~/.zhistory
-HISTSIZE=4096
-SAVEHIST=4096
+# Path to your oh-my-zsh installation.
+export ZSH="/Users/sjarvis/.oh-my-zsh"
 
-# globbing
-set extendedglob
+# Set name of the theme to load --- if set to "random", it will
+# load a random theme each time oh-my-zsh is loaded, in which case,
+# to know which specific one was loaded, run: echo $RANDOM_THEME
+# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
+ZSH_THEME="robbyrussell"
 
-# load perforce config if found
-if [ -f "$HOME/.p4c" ]; then
-    export P4CONFIG=$HOME/.p4c
-fi
+# Set list of themes to pick from when loading at random
+# Setting this variable when ZSH_THEME=random will cause zsh to load
+# a theme from this variable instead of looking in $ZSH/themes/
+# If set to an empty array, this variable will have no effect.
+# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
 
-# docker CIP business
-export DOCKER_HOST=192.168.50.4:2375
-function dt {
-    docker run -ti --rm \
-           -v ~/Perforce/LP-SJARVIS-OSX/depot/Smartgrid/Technical/Software:/sw \
-           -e GTAFUSER=jarvis \
-           cip bash --login ${@}
-}
+# Uncomment the following line to use case-sensitive completion.
+# CASE_SENSITIVE="true"
 
-# aliased commands
+# Uncomment the following line to use hyphen-insensitive completion.
+# Case-sensitive completion must be off. _ and - will be interchangeable.
+# HYPHEN_INSENSITIVE="true"
+
+# Uncomment the following line to disable bi-weekly auto-update checks.
+# DISABLE_AUTO_UPDATE="true"
+
+# Uncomment the following line to automatically update without prompting.
+# DISABLE_UPDATE_PROMPT="true"
+
+# Uncomment the following line to change how often to auto-update (in days).
+# export UPDATE_ZSH_DAYS=13
+
+# Uncomment the following line if pasting URLs and other text is messed up.
+# DISABLE_MAGIC_FUNCTIONS="true"
+
+# Uncomment the following line to disable colors in ls.
+# DISABLE_LS_COLORS="true"
+
+# Uncomment the following line to disable auto-setting terminal title.
+# DISABLE_AUTO_TITLE="true"
+
+# Uncomment the following line to enable command auto-correction.
+# ENABLE_CORRECTION="true"
+
+# Uncomment the following line to display red dots whilst waiting for completion.
+# COMPLETION_WAITING_DOTS="true"
+
+# Uncomment the following line if you want to disable marking untracked files
+# under VCS as dirty. This makes repository status check for large repositories
+# much, much faster.
+# DISABLE_UNTRACKED_FILES_DIRTY="true"
+
+# Uncomment the following line if you want to change the command execution time
+# stamp shown in the history command output.
+# You can set one of the optional three formats:
+# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+# or set a custom format using the strftime function format specifications,
+# see 'man strftime' for details.
+# HIST_STAMPS="mm/dd/yyyy"
+
+# Would you like to use another custom folder than $ZSH/custom?
+# ZSH_CUSTOM=/path/to/new-custom-folder
+
+# Which plugins would you like to load?
+# Standard plugins can be found in $ZSH/plugins/
+# Custom plugins may be added to $ZSH_CUSTOM/plugins/
+# Example format: plugins=(rails git textmate ruby lighthouse)
+# Add wisely, as too many plugins slow down shell startup.
+plugins=(git)
+
+source $ZSH/oh-my-zsh.sh
+
+# User configuration
+
+# export MANPATH="/usr/local/man:$MANPATH"
+
+# You may need to manually set your language environment
+# export LANG=en_US.UTF-8
+
+# Preferred editor for local and remote sessions
+ if [[ -n $SSH_CONNECTION ]]; then
+   export EDITOR='emacs'
+ else
+   export EDITOR='emacs'
+ fi
+
+# Compilation flags
+# export ARCHFLAGS="-arch x86_64"
+
+# Set personal aliases, overriding those provided by oh-my-zsh libs,
+# plugins, and themes. Aliases can be placed here, though oh-my-zsh
+# users are encouraged to define aliases within the ZSH_CUSTOM folder.
+# For a full list of active aliases, run `alias`.
+#
+# Example aliases
+# alias zshconfig="mate ~/.zshrc"
+# alias ohmyzsh="mate ~/.oh-my-zsh"
+
+alias hd="hexdump"
+
+alias ls="ls -G"
 alias ll="ls -l"
 alias la="ls -a"
-alias hd="hexdump"
-alias emacsw="/Applications/Emacs.app/Contents/MacOS/Emacs &"
-# vsat aliases
-alias p4='p4 -zmaxScanRows=10000000 -zmaxResults=10000000 -zmaxLockTime=600000'
-alias cdev='cd ~/Perforce/LP-SJARVIS-OSX/depot/Smartgrid/Technical/Software/Code/devel/'
-alias cvag='cd ~/Perforce/LP-SJARVIS-OSX/depot/Smartgrid/Technical/Software/tools/vagrant/'
+alias sl="ls"
 
-# key bindings
-autoload -U select-word-style
-select-word-style bash
-bindkey '^l' backward-kill-word
+alias sshp="ssh -o PreferredAuthentications=password -o PubkeyAuthentication=no"
 
-# init colors, prompt
-autoload -U compinit promptinit colors
-compinit
-promptinit
-colors
+# oh-my-zsh took over aliases i want
+unalias gk
 
-export CLICOLOR=1
-
-# shell in emacs mode
-bindkey -e
-
-export LANG=en_US.UTF-8
-export LC_ALL=en_US.UTF-8
-export TERM=xterm-256color
-export EDITOR=emacs
-
-# set prompt
-make_prompt() {
-    DIR=`pwd|sed -e "s|$HOME|~|"`;
-    if [ ${#DIR} -gt 30 ]; then
-      CWD="${DIR:0:12}...${DIR:${#DIR}-15}"
-    else
-      CWD="$DIR"
+# add directory to path only if it doesn't already exist and is a dir
+# paths are prepended
+pathadd() {
+    if [ -d "$1" ] && [[ ":$PATH:" != *":$1:"* ]]; then
+        PATH="$1:${PATH+"$PATH"}"
     fi
-    PROMPT="%{$fg[green]%}%n@%m %{$fg[cyan]%}$CWD %{$reset_color%}%# "
-    RPROMPT="[%{$fg_no_bold[yellow]%}%?%{$reset_color%}]"
 }
 
-precmd() { make_prompt; }
+pathadd /usr/local/bin
+pathadd /usr/local/go/bin
+pathadd /usr/local/sbin
+pathadd /usr/texbin
+pathadd ${HOME}/.local/bin
+pathadd ${HOME}/bin
+pathadd ${HOME}/go/bin
+export PATH 
 
-# Ubuntu dev
-export DEBFULLNAME="Steve Jarvis"
-export DEBEMAIL="sajarvis@bu.edu"
