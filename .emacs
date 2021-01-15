@@ -27,10 +27,9 @@
                      ; languages beyond what's baked in
                      markdown-mode
                      go-mode
+		     yaml-mode
                      pug-mode
-                     js2-mode
-                     js2-refactor
-                     xref-js2
+		     ws-butler
                      ))
 
 ;; install that stuff.
@@ -49,7 +48,8 @@
 ;-------------------------------------------------------------------------------
 ;; theme
 (setq inhibit-startup-message t)
-(load-theme 'zenburn t)
+;(load-theme 'zenburn t)
+(load-theme 'solarized-light t)
 ;; font size, height is 1/10 "size", so 120 = 12pt.
 (set-face-attribute 'default nil :height 140)
 ;;; get rid of the typical GUI menu bar
@@ -66,8 +66,13 @@
       scroll-conservatively 10000
       auto-window-vscroll nil)
 
+;; tabs can just go right ahead and die
+(setq-default indent-tabs-mode nil)
+
 ;;; clean up whitespace
 ;(add-hook 'before-save-hook 'delete-trailing-whitespace)
+; only cleans up lines that changed, so no noisy commits
+(add-hook 'prog-mode-hook #'ws-butler-mode)
 
 ;;; highlight key words and current line
 (defun m-highlight ()
@@ -244,27 +249,9 @@
 ;-------------------------------------------------------------------------------
 ;; JavaScript
 ;-------------------------------------------------------------------------------
-(require 'js2-mode)
-(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
-
-(require 'js2-refactor)
-(require 'xref-js2)
-
-(add-hook 'js2-mode-hook #'js2-refactor-mode)
-(js2r-add-keybindings-with-prefix "C-c C-r")
-(define-key js2-mode-map (kbd "C-k") #'js2r-kill)
-
-;; js-mode (which js2 is based on) binds "M-." which conflicts with xref, so
-;; unbind it.
-(define-key js-mode-map (kbd "M-.") nil)
-
-(add-hook 'js2-mode-hook (lambda ()
-  (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t)))
-
-(defun m-js-mode-hook()
-  (flyspell-prog-mode)
-  (setq js-indent-level 2))
-(add-hook 'js2-mode-hook 'm-js-mode-hook)
+(setq js-indent-level 2)
+(add-hook 'js-mode-hook (lambda ()
+  (setq tab-width 2)))
 
 (defun m-pug-mode-hook()
   (remove-hook 'before-save-hook 'delete-trailing-whitespace t)
