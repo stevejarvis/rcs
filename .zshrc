@@ -127,3 +127,14 @@ pathadd ${HOME}/bin
 pathadd ${HOME}/go/bin
 export PATH 
 
+# Python version management with pyenv
+export PYENV_ROOT=${HOME}/.pyenv
+export PIPENV_PYTHON=${PYENV_ROOT}/shims/python
+if command -v pyenv 1>/dev/null 2>&1; then
+  eval "$(pyenv init -)"
+fi
+
+# And Node management, with nvm
+export NVM_DIR="$HOME/.nvm"
+[ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
+[ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
