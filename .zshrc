@@ -8,7 +8,8 @@ export ZSH="/Users/sjarvis/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="robbyrussell"
+#ZSH_THEME="robbyrussell"
+ZSH_THEME="jarvis-custom"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -138,3 +139,19 @@ fi
 export NVM_DIR="$HOME/.nvm"
 [ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
 [ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+
+# Source local.sh for other things, if exists.
+if [ -f $HOME/.local.sh ]; then
+    source $HOME/.local.sh
+fi
+
+#alias ghgo='open "https://$(git remote -v | head -n1 | awk \'{print $2}\' | cut -d@ -f2 | sed -e \'s|:|/|\')"'
+alias cfd=cloudflared
+alias kctl=kubectl
+alias kubeone="env HTTPS_PROXY=socks5://127.0.0.1:1234 kubectl"
+
+alias tf=terraform
+
+bindkey -e
+bindkey '^[[1;9C' forward-word
+bindkey '^[[1;9D' backward-word
