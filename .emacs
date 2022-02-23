@@ -18,6 +18,7 @@
 		     ; actually install ag/silver searcher for ag and dumb-search
 		     ag
 		     dumb-jump
+                     undo-tree
         	     ;helm-ag
                      ; source control
                      magit
@@ -49,7 +50,7 @@
 ;; theme
 (setq inhibit-startup-message t)
 ;(load-theme 'zenburn t)
-(load-theme 'solarized-light t)
+(load-theme 'solarized-dark t)
 ;; font size, height is 1/10 "size", so 120 = 12pt.
 (set-face-attribute 'default nil :height 140)
 ;;; get rid of the typical GUI menu bar
@@ -68,11 +69,15 @@
 
 ;; tabs can just go right ahead and die
 (setq-default indent-tabs-mode nil)
+(setq tab-width 2)
 
 ;;; clean up whitespace
 ;(add-hook 'before-save-hook 'delete-trailing-whitespace)
 ; only cleans up lines that changed, so no noisy commits
 (add-hook 'prog-mode-hook #'ws-butler-mode)
+
+;
+(global-undo-tree-mode)
 
 ;;; highlight key words and current line
 (defun m-highlight ()
@@ -94,6 +99,8 @@
       kept-old-versions 2
       delete-old-versions t
       backup-by-copying t)
+;;; don't need lock files
+(setq create-lockfiles nil)
 
 ;;; auto create matching parens/braces and highlight match
 (electric-pair-mode t)
@@ -198,6 +205,9 @@
 
 ;; insert mode actually be emacs
 (add-hook 'evil-insert-state-entry-hook 'evil-emacs-state)
+
+;;; more info https://github.com/emacs-evil/evil/pull/1360
+(setq evil-undo-system 'undo-tree)
 
 ;-------------------------------------------------------------------------------
 ; key chord
