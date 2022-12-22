@@ -59,7 +59,7 @@
 
 ;;; make bindings
 (global-set-key (kbd "C-c m") 'compile)
-;(global-set-key (kbd "C-c n") 'next-error)
+(global-set-key (kbd "C-c n") 'next-error)
 (global-set-key (kbd "C-c p") 'previous-error)
 
 ;;; scroll-smoothly
@@ -72,7 +72,7 @@
 (setq tab-width 2)
 
 ;;; clean up whitespace
-;(add-hook 'before-save-hook 'delete-trailing-whitespace)
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
 ; only cleans up lines that changed, so no noisy commits
 (add-hook 'prog-mode-hook #'ws-butler-mode)
 
@@ -267,6 +267,20 @@
   (remove-hook 'before-save-hook 'delete-trailing-whitespace t)
   (message "Cleared trailing whitespace hooker"))
 (add-hook 'pug-mode-hook 'm-pug-mode-hook)
+
+;-------------------------------------------------------------------------------
+;; Go
+;-------------------------------------------------------------------------------
+; go install github.com/rogpeppe/godef@latest
+; go install golang.org/x/tools/cmd/goimports@latest
+;; the make command doesn't quite work, need to get vc-root-dir of current buffer..
+(add-hook 'go-mode-hook (lambda ()
+                          (local-set-key (kbd "M-.") 'godef-jump)
+                          (setq gofmt-command "goimports")
+                          (add-hook 'before-save-hook 'gofmt-before-save)
+                          (setq tab-width 4)
+                          (set (make-local-variable 'compile-command)
+                               (concat "cd " (vc-root-dir) "; make install; cd -"))))
 
 ;-------------------------------------------------------------------------------
 ;; markdown
