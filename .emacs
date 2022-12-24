@@ -1,5 +1,4 @@
 ;;; package --- General settings, setting up my emacs.
-;-------------------------------------------------------------------------------
 ; auto load package
 ;-------------------------------------------------------------------------------
 ; auto-fetch things from melpa
@@ -75,9 +74,6 @@
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 ; only cleans up lines that changed, so no noisy commits
 (add-hook 'prog-mode-hook #'ws-butler-mode)
-
-;
-(global-undo-tree-mode)
 
 ;;; highlight key words and current line
 (defun m-highlight ()
@@ -207,7 +203,8 @@
 (add-hook 'evil-insert-state-entry-hook 'evil-emacs-state)
 
 ;;; more info https://github.com/emacs-evil/evil/pull/1360
-(setq evil-undo-system 'undo-tree)
+(global-undo-tree-mode)
+(evil-set-undo-system 'undo-tree)
 
 ;-------------------------------------------------------------------------------
 ; key chord
@@ -301,3 +298,18 @@
   (set-fill-column 80))
 (add-hook 'latex-mode-hook 'm-plaintext-hook)
 (add-hook 'latex-mode-hook 'm-latex-mode-hook)
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   '("2809bcb77ad21312897b541134981282dc455ccd7c14d74cc333b6e549b824f3" default))
+ '(package-selected-packages
+   '(undo-tree ws-butler pug-mode yaml-mode go-mode markdown-mode zenburn-theme solarized-theme magit dumb-jump ag flycheck auto-complete powerline-evil powerline helm-projectile projectile helm key-chord evil)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

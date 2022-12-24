@@ -2,7 +2,7 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="/Users/sjarvis/.oh-my-zsh"
+export ZSH="/Users/steve/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -108,9 +108,6 @@ alias sl="ls"
 
 alias sshp="ssh -o PreferredAuthentications=password -o PubkeyAuthentication=no"
 
-# oh-my-zsh took over aliases i want
-unalias gk
-
 # add directory to path only if it doesn't already exist and is a dir
 # paths are prepended
 pathadd() {
@@ -126,7 +123,14 @@ pathadd /usr/texbin
 pathadd ${HOME}/.local/bin
 pathadd ${HOME}/bin
 pathadd ${HOME}/go/bin
-export PATH 
+pathadd ${HOME}/google-cloud-sdk/bin
+# NOTE this is probably why ppl use rvm, it'll make a mess
+# with multiple versions of same lib.
+for version in $(ls ${HOME}/.gem/ruby); do
+    pathadd ${HOME}/.gem/ruby/${version}/bin
+done
+pathadd /opt/homebrew/opt/ruby/bin
+export PATH
 
 # Python version management with pyenv
 export PYENV_ROOT=${HOME}/.pyenv
@@ -155,3 +159,5 @@ alias tf=terraform
 bindkey -e
 bindkey '^[[1;9C' forward-word
 bindkey '^[[1;9D' backward-word
+
+eval "$(/opt/homebrew/bin/brew shellenv)"
