@@ -30,6 +30,8 @@
 		     yaml-mode
                      pug-mode
 		     ws-butler
+                     terraform-mode
+                     protobuf-mode
                      ))
 
 ;; install that stuff.
@@ -48,8 +50,8 @@
 ;-------------------------------------------------------------------------------
 ;; theme
 (setq inhibit-startup-message t)
-;(load-theme 'zenburn t)
-(load-theme 'solarized-dark t)
+(load-theme 'zenburn t)
+;(load-theme 'solarized-dark t)
 ;; font size, height is 1/10 "size", so 120 = 12pt.
 (set-face-attribute 'default nil :height 140)
 ;;; get rid of the typical GUI menu bar
@@ -204,6 +206,7 @@
 
 ;;; more info https://github.com/emacs-evil/evil/pull/1360
 (global-undo-tree-mode)
+;(setq evil-undo-system 'undo-tree)
 (evil-set-undo-system 'undo-tree)
 
 ;-------------------------------------------------------------------------------
@@ -304,9 +307,9 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-   '("2809bcb77ad21312897b541134981282dc455ccd7c14d74cc333b6e549b824f3" default))
+   '("b77a00d5be78f21e46c80ce450e5821bdc4368abf4ffe2b77c5a66de1b648f10" default))
  '(package-selected-packages
-   '(undo-tree ws-butler pug-mode yaml-mode go-mode markdown-mode zenburn-theme solarized-theme magit dumb-jump ag flycheck auto-complete powerline-evil powerline helm-projectile projectile helm key-chord evil)))
+   '(protobuf-mode terraform-mode ws-butler pug-mode yaml-mode go-mode markdown-mode zenburn-theme solarized-theme magit undo-tree dumb-jump ag flycheck auto-complete powerline-evil powerline helm-projectile projectile helm key-chord evil)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
