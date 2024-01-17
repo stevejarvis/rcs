@@ -2,7 +2,7 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="/Users/steve/.oh-my-zsh"
+export ZSH="${HOME}/.ohmyzsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -124,13 +124,30 @@ pathadd ${HOME}/.local/bin
 pathadd ${HOME}/bin
 pathadd ${HOME}/go/bin
 pathadd ${HOME}/google-cloud-sdk/bin
+pathadd ${HOME}/.local/bin
+pathadd ${HOME}/.config/emacs/bin
 # NOTE this is probably why ppl use rvm, it'll make a mess
 # with multiple versions of same lib.
-for version in $(ls ${HOME}/.gem/ruby); do
-    pathadd ${HOME}/.gem/ruby/${version}/bin
-done
-pathadd /opt/homebrew/opt/ruby/bin
+#for version in $(ls ${HOME}/.gem/ruby); do
+#    pathadd ${HOME}/.gem/ruby/${version}/bin
+#done
+#pathadd /opt/homebrew/opt/ruby/bin
 export PATH
+
+# And Node management, with nvm
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+#alias ghgo='open "https://$(git remote -v | head -n1 | awk \'{print $2}\' | cut -d@ -f2 | sed -e \'s|:|/|\')"'
+bindkey -e
+bindkey '^[[1;9C' forward-word
+bindkey '^[[1;9D' backward-word
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+randompass() {
+    head /dev/urandom | LC_ALL=C tr -dc "A-Za-z0-9[:punct:]" | head -c32 | pbcopy
+}
 
 # Python version management with pyenv
 export PYENV_ROOT=${HOME}/.pyenv
@@ -139,25 +156,7 @@ if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init -)"
 fi
 
-# And Node management, with nvm
-export NVM_DIR="$HOME/.nvm"
-[ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
-[ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
-
 # Source local.sh for other things, if exists.
 if [ -f $HOME/.local.sh ]; then
     source $HOME/.local.sh
 fi
-
-#alias ghgo='open "https://$(git remote -v | head -n1 | awk \'{print $2}\' | cut -d@ -f2 | sed -e \'s|:|/|\')"'
-alias cfd=cloudflared
-alias kctl=kubectl
-alias kubeone="env HTTPS_PROXY=socks5://127.0.0.1:1234 kubectl"
-
-alias tf=terraform
-
-bindkey -e
-bindkey '^[[1;9C' forward-word
-bindkey '^[[1;9D' backward-word
-
-eval "$(/opt/homebrew/bin/brew shellenv)"
