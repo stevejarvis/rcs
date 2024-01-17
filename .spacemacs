@@ -32,13 +32,16 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '((javascript :variables javascript-backend 'lsp
+   '(csv
+     protobuf
+     (javascript :variables javascript-backend 'lsp
                 javascript-fmt-on-save t
                 javascript-fmt-tool 'prettier)
      (go :variables go-backend 'lsp
          go-format-before-save t
          gofmt-command "goimports"
          go-tab-width 4)
+     python
      terraform
      yaml
      ;; ----------------------------------------------------------------
@@ -59,6 +62,7 @@ This function should only modify configuration layer settings."
      ;;        shell-default-height 30
      ;;        shell-default-position 'bottom)
      spell-checking
+     sql
      syntax-checking
      version-control
      treemacs)
@@ -264,8 +268,8 @@ It should only modify the values of Spacemacs settings."
    ;; Default font or prioritized list of fonts. The `:size' can be specified as
    ;; a non-negative integer (pixel size), or a floating-point (point size).
    ;; Point size is recommended, because it's device independent. (default 10.0)
-   dotspacemacs-default-font '("Source Code Pro"
-                               :size 10.0
+   dotspacemacs-default-font '("Menlo"
+                               :size 15.0
                                :weight normal
                                :width normal)
 
@@ -576,12 +580,15 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
+  ;(define-key evil-emacs-state-map (kbd "kj") 'evil-normal-state)
+  ;(define-key evil-insert-state-map (kbd "kj") 'evil-normal-state)
+  ;(define-key evil-visual-state-map (kbd "kj") 'evil-normal-state)
   (require 'key-chord)
   (key-chord-mode 1)
   (key-chord-define evil-insert-state-map  "kj" 'evil-normal-state)
   (key-chord-define evil-visual-state-map "kj" 'evil-normal-state)
   (key-chord-define evil-emacs-state-map "kj" 'evil-normal-state)
-  ;; Emacs insert state has bunch of bindinds. I want it to be more normal emacs on insert.
+  ;; Evil insert state has bunch of bindinds. I want it to be more normal emacs on insert.
   (defalias 'evil-insert-state 'evil-emacs-state)
 )
 
