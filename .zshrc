@@ -8,8 +8,8 @@ export ZSH="${HOME}/.ohmyzsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-#ZSH_THEME="robbyrussell"
-ZSH_THEME="jarvis-custom"
+ZSH_THEME="robbyrussell"
+#ZSH_THEME="jarvis-custom"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -126,12 +126,14 @@ pathadd ${HOME}/go/bin
 pathadd ${HOME}/google-cloud-sdk/bin
 pathadd ${HOME}/.local/bin
 pathadd ${HOME}/.config/emacs/bin
+pathadd ${HOME}/.emacs.d/bin
 # NOTE this is probably why ppl use rvm, it'll make a mess
 # with multiple versions of same lib.
 #for version in $(ls ${HOME}/.gem/ruby); do
 #    pathadd ${HOME}/.gem/ruby/${version}/bin
 #done
-#pathadd /opt/homebrew/opt/ruby/bin
+pathadd /usr/local/opt/ruby/bin
+pathadd /usr/local/lib/ruby/gems/3.3.0/bin
 export PATH
 
 # And Node management, with nvm
